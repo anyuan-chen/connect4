@@ -1,2 +1,2 @@
 # connect4
-Edits:
+Edits: May 13th - first draft of the project charter completed

@@ -5,6 +5,7 @@ This project charter will focus on various aspects of the Connect 4 project. It 
 ## Project Description
 This project will consist of a program written in Java meant to emulate the
 "Connect 4" board game on a computer. It will involve a six row, seven column grid which players will take turns dropping pieces in. The objective for a player in this game is to have four of their colored pieces connected in a row before their opponent. This can be done vertically, horizontally, or diagonally. The player will have the option to participate in this game either against another player, or against the computer.
+
 ## Scope
 
 #### Deliverables
@@ -19,7 +20,7 @@ This project will consist of a program written in Java meant to emulate the
 - successful creation of different menus that are visually appealing to the user yet still very functional
 
 #### Task List
-- a main menu which will allow the user to select which mode they would like to play in
+- a main menu which will allow the user to select which mode they would like to play in 
 - a visual representation of a 6 by 7 Connect 4 board
 - a functional AI that the user can play against
 - a turn-based system which will display who's turn it is
@@ -27,7 +28,7 @@ This project will consist of a program written in Java meant to emulate the
 - a detection method for the computer to know when someone has won the game
 - a way to reset the board automatically when a player has won a game, or manually if the user wants a fresh start
 - an easy way to exit the program
-- a way to save the state of a game for loading (optional)  
+- a way to save the state of a game for loading (optional)
 
 ## Timeline
 

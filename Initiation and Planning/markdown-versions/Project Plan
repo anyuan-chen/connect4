@@ -1,10 +1,45 @@
 # Project Plan
 
 ### Risk Management
-We recognize the risk that may be posed by having uncoordinated testing environments and different versions of our code and seek to fix this with the usage of version control and proper communication.
-
-Version control will be done using Github. Before either developer makes any edits to the program, they will check that their testing environment uses only the most updated files, identical to those on the shared repository. After editing or adding files, developers will commit all of their changes immediately to the repository.
-
-To cover any issues that may come up, Discord will be used  as the primary method of communication for this project. This software was chosen due to its ubiquity and ease of use for a team of two users. Meetings will be held twice a week to discuss the state of the project and any changes that need to happen.
+We recognize the risk that may be posed by having uncoordinated testing environments and different versions of our code and seek to fix
+this with the usage of version control and proper communication.
+Version control will be done using Github. Before either developer makes any edits to the program, they will check that their testing
+environment uses only the most updated files, identical to those on the shared repository. After editing or adding files, developers
+will commit all of their changes immediately to the repository.
+To cover any issues that may come up, Discord will be used  as the primary method of communication for this project. This software was
+chosen due to its ubiquity and ease of use for a team of two users. Meetings will be held twice a week to discuss the state of the project
+and any changes that need to happen.
 
 Change management will be introduced with both members of the development team needing to communicate before implementing any change of scope through Discord.
+
+### Change management
+Understanding that changes in scope and the specification for our project
+are inevitable, the following system will be implemented to deal with
+such changes.
+
+##### Step 1 - Recieving the Request
+The request could be recieved either directly from Mr. A or from the specification.
+If it was from the specification, this could just be a change in scope due to
+a misunderstanding of the specification.
+
+##### Step 2 - Impact Analysis
+The developers will now have a meeting to discuss the implications of this change
+in scope on the project. Here, the time taken to make the change, the different
+methods that need to be changed, and impact on the overall schedule of the project
+will be considered.
+
+##### Step 3 - Finalization
+Before beginning to implement the change, the developers will have one final
+meeting to discuss the project. If this will prevent the team from finishing
+a much larger portion of the project, then the change in scope will be put on hold
+until the end of the project to implement. However, if the change is urgent, it will
+be implemented immediately.
+
+##### Step 4 - Implementation
+The change should be implemented after much communication between the developers.
+This step varies greatly with each different scope change.
+
+##### Step 5 - Review
+The developers will have one final meeting to discuss the success/faliure of the
+change management procedure. If there are any large issues with the change, we may
+have to redo this procedure or request an extension. Otherwise, this change management procedue is finished.

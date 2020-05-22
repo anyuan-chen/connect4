@@ -1,3 +1,3 @@
-*.iml
-*.ipr
-*.iws
+!/connect4src.iml
+!/connect4src.ipr
+!/connect4src.iws

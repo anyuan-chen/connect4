@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2228a92-2bcf-40c8-87dd-199f64db1b23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/connect4src.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/connect4src.ipr" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/connect4src.iws" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/connect4src/Main.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connect4src.iws" beforeDir="false" afterPath="$PROJECT_DIR$/connect4src.iws" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +58,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590111396432</updated>
-      <workItem from="1590111400220" duration="370000" />
+      <workItem from="1590111400220" duration="875000" />
+      <workItem from="1590112305046" duration="58000" />
     </task>
     <servers />
   </component>
@@ -69,9 +67,25 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="324" y="70" key="#Plugins" timestamp="1590112275130">
+      <screen x="0" y="0" width="1463" height="823" />
+    </state>
+    <state x="324" y="70" key="#Plugins/0.0.1463.823@0.0.1463.823" timestamp="1590112275130" />
     <state x="324" y="70" key="#Project_Structure" timestamp="1590111415294">
       <screen x="0" y="0" width="1463" height="823" />
     </state>
     <state x="324" y="70" key="#Project_Structure/0.0.1463.823@0.0.1463.823" timestamp="1590111415294" />
+    <state x="512" y="153" key="FileChooserDialogImpl" timestamp="1590112243276">
+      <screen x="0" y="0" width="1463" height="823" />
+    </state>
+    <state x="512" y="153" key="FileChooserDialogImpl/0.0.1463.823@0.0.1463.823" timestamp="1590112243276" />
+    <state x="428" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1590112304170">
+      <screen x="0" y="0" width="1463" height="823" />
+    </state>
+    <state x="428" y="235" key="com.intellij.ide.util.TipDialog/0.0.1463.823@0.0.1463.823" timestamp="1590112304170" />
+    <state x="394" y="144" width="672" height="678" key="search.everywhere.popup" timestamp="1590112254307">
+      <screen x="0" y="0" width="1463" height="823" />
+    </state>
+    <state x="394" y="144" width="672" height="678" key="search.everywhere.popup/0.0.1463.823@0.0.1463.823" timestamp="1590112254307" />
   </component>
 </project>

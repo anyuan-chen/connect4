@@ -1,11 +1,12 @@
 package game;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Main extends JFrame {
+public class MainMenu {
+    //static jframe that will be passed around to all the gui classes
+    static JFrame frame = new JFrame();
     //creation of panels to organize the main menu for the frame
     JPanel title = new JPanel();
     JPanel selection = new JPanel();
@@ -23,7 +24,7 @@ public class Main extends JFrame {
                 actionEvent -> {
                     //try-catch here used because we can't throw exceptions using a lambda function
                     try {
-                        Desktop.getDesktop().open(new File("./Assets/Instructions.txt"));
+                        Desktop.getDesktop().open(new File("./src/Assets/Instructions.txt"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -33,13 +34,19 @@ public class Main extends JFrame {
         settings.add(instructions);
         settings.add(exit);
         menuBar.add(settings);
-        setJMenuBar(menuBar);
+        frame.setJMenuBar(menuBar);
     }
     public void setUpPanel(){
         //title message
         JLabel titleLabel = new JLabel("Welcome to Connect 4");
         //buttons to enter each specific mode
         JButton twoPlayer = new JButton("Two Player");
+        //if the two player mode is pressed, we are taken to the two player game mode
+        twoPlayer.addActionListener(
+                actionEvent -> {
+                    TwoPlayer tp = new TwoPlayer(frame);
+                }
+        );
         JButton easyAI = new JButton("Singleplayer - Easy");
         JButton hardAI = new JButton("Singleplayer - Hard");
         //adds title label to the titlebar
@@ -49,20 +56,20 @@ public class Main extends JFrame {
         selection.add(easyAI);
         selection.add(hardAI);
     }
-    public Main () throws IOException{
+    public MainMenu(JFrame frame) throws IOException{
         setUpMenu();
         setUpPanel();
         //adds creates layout to have the two panels stacked on top of each other
-        setLayout(new GridLayout(2,1));
+        frame.setLayout(new GridLayout(2,1));
         //adds panels to the frame
-        add(title);
-        add(selection);
+        frame.add(title);
+        frame.add(selection);
         //sets size of the application
-        setSize(600,600);
-        setVisible(true);
+        frame.setSize(600,600);
+        frame.setVisible(true);
     }
     public static void main(String[] args) throws IOException {
         //creates instance of the application
-        Main m = new Main();
+        MainMenu m = new MainMenu(frame);
     }
 }

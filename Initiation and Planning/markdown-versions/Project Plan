@@ -2,19 +2,27 @@
 
 ## Target System
 This application is meant to be run cross-platform on any device that supports Java. The release of Java does not matter as long as it is  
-JRE 8.
+a version of JRE 8.
+
+## Technologies to be Used
+This project will utilize a variety of technologies in its development. One developer will be using Atom and Intellij to develop the Java
+code, while the other will be using Netbeans. To foster collaboration, a source code repository in the form of Github will be used. To
+encourage communication, the chat platform Discord will be used. Both project management documents were made with Markdown using plain text
+editors. The algorithm will be created using Google Docs. Flaticon will be used for any icons necessary for our project. All copyright usage
+is under the terms of fair use, as this project is strictly for education purposes.
 
 ## Scope of the Project
 ### Final List of Deliverables
 - title page with instructions and a variety of game modes to choose from
 - creation of a point object to represent connect 4 pieces
 - creation of a game state object to represent the current situation on the board
-- creation of effective minmax AI for the player to play against
+- creation of effective minimax AI for the player to play against
 - creation of timer object for the user to limit time of games
 - creation of a mechanism to track the number of moves and possibly end the game once a move total has been reached
 - creation of a checking algorithm to observe if the game is over
 - creation of a file management system to load game states into the connect 4 application
 - addition of menu bars to exit the application or save the game
+- an instructions document to tell the player how to play connect 4
 
 ## Role Distribution
 The role distribution will be loosely based on the schedule posed through the Gantt chart attached. However, our group has taken into

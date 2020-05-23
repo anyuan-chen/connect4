@@ -1,6 +1,8 @@
 package game;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,6 +17,7 @@ public class MainMenu {
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem instructions = new JMenuItem("Instructions");
+        JMenuItem options = new JMenuItem("Options");
         //makes the exit button exit when it is clicked
         exit.addActionListener(
                 actionEvent -> System.exit(0)
@@ -30,8 +33,14 @@ public class MainMenu {
                     }
                 }
         );
+        options.addActionListener(
+                actionEvent -> {
+                    Settings s = new Settings();
+                }
+        );
         //adds various components to the menu bar
         settings.add(instructions);
+        settings.add(options);
         settings.add(exit);
         menuBar.add(settings);
         frame.setJMenuBar(menuBar);

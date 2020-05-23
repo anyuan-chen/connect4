@@ -6,12 +6,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Gamemode {
     private JLabel[][] slots;
-    private boolean [][] filled;
+    private int [][] filled;
     private JButton[] buttons;
     private JPanel grid;
+    int turn = 1;
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
     JFrame frame;
@@ -25,7 +27,6 @@ public class Gamemode {
         frame.revalidate();
         frame.repaint();
     }
-
     public void setUpMenuBar() {
         JMenuBar gameMenu = new JMenuBar();
         JMenu exit = new JMenu("Exit");
@@ -73,7 +74,6 @@ public class Gamemode {
         gameMenu.add(exit);
         frame.setJMenuBar(gameMenu);
     }
-
     public void setUpBoard() {
         grid = new JPanel(new GridLayout(ROWSIZE, COLSIZE + 1)) {
             @Override
@@ -93,20 +93,32 @@ public class Gamemode {
             }
         };
         slots = new JLabel[ROWSIZE][COLSIZE];
-        filled = new boolean[ROWSIZE][COLSIZE];
+        filled = new int[ROWSIZE][COLSIZE];
         buttons = new JButton[ROWSIZE];
+        for (int[] ints : filled) {
+            Arrays.fill(ints, -1);
+        }
         for (int i = 0; i < ROWSIZE; i++) {
             buttons[i] = new JButton(String.valueOf(i + 1));
             int finalI = i;
             buttons[i].addActionListener(
                     actionEvent -> {
                        for (int c = COLSIZE-1; c >= 0; c--){
-                           if (!filled[finalI][c]){
-                               filled[finalI][c] = true;
-                               slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                           if (filled[finalI][c] == -1){
+                               filled[finalI][c] = turn%2;
+                               if (turn%2==1){
+                                   slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                               }
+                               else{
+                                   slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                               }
+                               turn++;
                                frame.repaint();
                                frame.revalidate();
                                break;
+                           }
+                           if (c==0){
+                               JOptionPane.showMessageDialog(frame, "This column is full, try another");
                            }
                        }
                     }

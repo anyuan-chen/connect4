@@ -37,7 +37,7 @@ public class Options {
         saveAndExit.addActionListener(
                 actionEvent -> {
                     player1CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
-                    player2CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
+                    player2CurrentColor = String.valueOf(player2Color.getSelectedItem()) + ".png";
                     currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem()));
                     options.setVisible(false);
                 }

@@ -2,19 +2,10 @@ package game;
 
 import javax.swing.*;
 
-public class TwoPlayer {
+public class TwoPlayer extends Gamemode {
     JFrame frame;
     public TwoPlayer(JFrame frame){
-        this.frame = frame;
-        frame.getContentPane().removeAll();
-        setUpMainBoard();
-        frame.revalidate();
-        frame.repaint();
+        super(frame);
     }
-    public void setUpMainBoard(){
-        JPanel mainPanel = new JPanel();
-        JLabel lb = new JLabel("placeholder for actual board");
-        mainPanel.add(lb);
-        frame.add(mainPanel);
-    }
+
 }

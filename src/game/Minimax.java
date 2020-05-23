@@ -1,4 +1,9 @@
 package game;
 
-public class Minimax {
+import javax.swing.*;
+
+public class Minimax extends Gamemode{
+    public Minimax(JFrame frame){
+        super(frame);
+    }
 }

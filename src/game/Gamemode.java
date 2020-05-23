@@ -103,7 +103,7 @@ public class Gamemode {
                        for (int c = COLSIZE-1; c >= 0; c--){
                            if (!filled[finalI][c]){
                                filled[finalI][c] = true;
-                               slots [finalI][c].setIcon(new ImageIcon("./src/Assets/BLACK.png"));
+                               slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
                                frame.repaint();
                                frame.revalidate();
                                break;

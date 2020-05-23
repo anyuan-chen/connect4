@@ -6,8 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Options {
-    static String color = "BLACK.png";
-    static int difficulty = 5;
+    static String player1CurrentColor = "BLACK.png";
+    static String player2CurrentColor = "ORANGE.png";
+    static int currentDifficulty = 5;
 
     JFrame options = new JFrame();
     public Options(){
@@ -16,7 +17,6 @@ public class Options {
         JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty:");
         String [] colors = {"BLACK", "ORANGE", "PURPLE", "YELLOW"};
         Integer [] difficulty = {1,2,3,4,5};
-
         JComboBox<String> player1Color = new JComboBox<String>(colors);
         JComboBox<String> player2Color = new JComboBox<String>(colors);
         JComboBox<Integer> aiDifficulty = new JComboBox<Integer>(difficulty);
@@ -35,7 +35,12 @@ public class Options {
 
         JButton saveAndExit = new JButton("Save and Exit");
         saveAndExit.addActionListener(
-                actionEvent -> options.setVisible(false)
+                actionEvent -> {
+                    player1CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
+                    player2CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
+                    currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem()));
+                    options.setVisible(false);
+                }
         );
         options.setLayout(new GridLayout(4,1));
         options.add(color1Panel);

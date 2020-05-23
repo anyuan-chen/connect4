@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Options {
-    static String color = "black";
+    static String color = "BLACK.png";
     static int difficulty = 5;
 
     JFrame options = new JFrame();
@@ -14,7 +14,7 @@ public class Options {
         JLabel colorLabel = new JLabel("Please select the color for player 1:");
         JLabel color2Label = new JLabel("Please select the color for player 2/AI");
         JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty:");
-        String [] colors = {"red", "blue", "yellow"};
+        String [] colors = {"BLACK", "ORANGE", "PURPLE", "YELLOW"};
         Integer [] difficulty = {1,2,3,4,5};
 
         JComboBox<String> player1Color = new JComboBox<String>(colors);

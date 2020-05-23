@@ -1,8 +1,6 @@
 package game;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,6 +11,7 @@ public class MainMenu {
     JPanel title = new JPanel();
     JPanel selection = new JPanel();
     public void setUpMenu () throws IOException {
+        frame.getContentPane().removeAll();
         JMenuBar menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
@@ -35,7 +34,7 @@ public class MainMenu {
         );
         options.addActionListener(
                 actionEvent -> {
-                    Settings s = new Settings();
+                    Options s = new Options();
                 }
         );
         //adds various components to the menu bar
@@ -44,6 +43,8 @@ public class MainMenu {
         settings.add(exit);
         menuBar.add(settings);
         frame.setJMenuBar(menuBar);
+        frame.revalidate();
+        frame.repaint();
     }
     public void setUpPanel(){
         //title message

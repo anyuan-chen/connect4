@@ -5,15 +5,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Settings {
+public class Options {
     static String color = "black";
     static int difficulty = 5;
-    JFrame settings = new JFrame();
-    public Settings(){
+
+    JFrame options = new JFrame();
+    public Options(){
         JLabel colorLabel = new JLabel("Please select the color for player 1:");
         JLabel color2Label = new JLabel("Please select the color for player 2/AI");
-        JLabel difficultyLabel = new JLabel("Please select the difficulty:");
-
+        JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty:");
         String [] colors = {"red", "blue", "yellow"};
         Integer [] difficulty = {1,2,3,4,5};
 
@@ -35,19 +35,14 @@ public class Settings {
 
         JButton saveAndExit = new JButton("Save and Exit");
         saveAndExit.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        settings.setVisible(false);
-                    }
-                }
+                actionEvent -> options.setVisible(false)
         );
-        settings.setLayout(new GridLayout(4,1));
-        settings.add(color1Panel);
-        settings.add(color2Panel);
-        settings.add(difficultyPanel);
-        settings.add(saveAndExit);
-        settings.setSize(350,350);
-        settings.setVisible(true);
+        options.setLayout(new GridLayout(4,1));
+        options.add(color1Panel);
+        options.add(color2Panel);
+        options.add(difficultyPanel);
+        options.add(saveAndExit);
+        options.setSize(350,350);
+        options.setVisible(true);
     }
 }

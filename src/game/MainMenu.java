@@ -46,7 +46,7 @@ public class MainMenu {
         frame.revalidate();
         frame.repaint();
     }
-    public void setUpPanel(){
+    public void setUpPanel() throws IOException{
         //title message
         JLabel titleLabel = new JLabel("Welcome to Connect 4");
         //buttons to enter each specific mode
@@ -54,7 +54,11 @@ public class MainMenu {
         //if the two player mode is pressed, we are taken to the two player game mode
         twoPlayer.addActionListener(
                 actionEvent -> {
-                    TwoPlayer tp = new TwoPlayer(frame);
+                    try {
+                        TwoPlayer tp = new TwoPlayer(frame);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
         );
         JButton easyAI = new JButton("Singleplayer - Easy");

@@ -8,37 +8,126 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
 
+
 public class Gamemode {
+    //array of directions used for the checkWin method
+    private int[][] directions = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+    //array of JLabels where the connect 4 tiles are placed
     private JLabel[][] slots;
+    //array correstpinding to slots with an unfilled value being -1, player 1 filled being 1, and player 2 filled being 0
     private int [][] filled;
+    //buttons to place tiles at the top
     private JButton[] buttons;
+    //the panel that hosts the entire grid
     private JPanel grid;
+    //odd turns are player 1, even are player 2
     int turn = 1;
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
     JFrame frame;
-
-    public Gamemode(JFrame frame) {
+    /**
+     * @param frame - needed to display the gameboard
+     * @throws IOException - deals with fileIO
+     */
+    public Gamemode(JFrame frame) throws IOException {
         this.frame = frame;
         frame.setLayout(new BorderLayout());
         frame.getContentPane().removeAll();
+        frame.setTitle("Player 1 Turn");
         setUpBoard();
         setUpMenuBar();
         frame.revalidate();
         frame.repaint();
     }
+    /**
+     * @param x - which row
+     * @param y - which column
+     * @param value - is this player 1 or player 2, if it is player 1 this value will be 1 while it will be 0 for player 2
+     * @throws IOException - involves a bit of FileIO
+     */
+    public void checkWin(int x, int y, int value) throws IOException {
+        //if all of the tiles have been filled
+        if (turn == 42){
+            //return to the main menu because it is a tie
+            JOptionPane.showMessageDialog(new JFrame(), "A tie has occurred, the game will now reset. The game will now return to the main menu",
+                    "information", JOptionPane.INFORMATION_MESSAGE);
+            //returns to the main menu
+            MainMenu mm = new MainMenu(frame);
+        }
+        //for all the different directions
+        for (int [] direction : directions){
+            //check if the current tile placed will cause a connect 4 to happen
+            if (checkWinUtility(x,y,value,1,direction)){
+                //if this is the player 2 that placed the piece
+                if (turn%2==0){
+                    //show the dialog box and return to main menu
+                    JOptionPane.showMessageDialog(new JFrame(), "Player 2 has won. The game will now return to the main menu",
+                            "information", JOptionPane.INFORMATION_MESSAGE);
+                }
+                //if this is the player 1 that placed the piece
+                else{
+                    //show the dialog box and return to main menu
+                    JOptionPane.showMessageDialog(frame, "Player 1 has won. The game will now return to the main menu",
+                            "information", JOptionPane.INFORMATION_MESSAGE);
+                }
+                //returns to the main menu
+                MainMenu mm = new MainMenu(frame);
+            }
+        }
+    }
+    /**
+     * @param x - which row
+     * @param y - which volumn
+     * @param value - is this player 1 or player 2, if it is player 1 this value will be 1 while it will be 0 for player 2
+     * @param amountInARow - since this is recursive, how many pieces are in a row already
+     * @param direction - up down left right or any of the four diagonals, this is represented as an x-y coordinate (eg. up would be (0,1))
+     * @return - true if there exists 4 in a row
+     */
+    public boolean checkWinUtility(int x, int y, int value, int amountInARow, int [] direction){
+        //if the amount is 4 in a row, then connect 4 is complete
+        if (amountInARow == 4){
+            return true;
+        }
+        //try catch in case the recursive function goes out of bounds
+        try {
+            //if the next tile in the given direction is the same as the starting one
+            if (filled[x + direction[0]][y+direction[1]] == value){
+                //keep going until there is 4 in a row
+                return checkWinUtility(x + direction[0], y+direction[1], value, amountInARow+1, direction);
+            }
+            //a different tile from the start means no connect 4 has been achieved
+            else{
+                return false;
+            }
+        } catch (ArrayIndexOutOfBoundsException e){
+            //going out of the array also means that connect 4 has not been reached
+            return false;
+        }
+    }
+
+    /**
+     * Sets up the menu bar for the user
+     */
     public void setUpMenuBar() {
+        //creates new menu bar
         JMenuBar gameMenu = new JMenuBar();
+        //creates exit section of menu
         JMenu exit = new JMenu("Exit");
+        //creates game section of menu
         JMenu game = new JMenu("Game");
+        //creates item to allow user to go back to main menu
         JMenuItem toMainMenu = new JMenuItem("Back to Main Menu");
+        //add interaction which creates a new main menuobject, effectively sending the user back to the main menu
+        //note usage of lambada function instead of creation of a new action listener to create a more efficent way of functional programming
         toMainMenu.addActionListener(actionEvent -> {
             try {
+                //returns to main menu
                 MainMenu mm = new MainMenu(frame);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+        //creates the item to exit the program entirely
         JMenuItem exitApplication = new JMenuItem("Exit Application");
         exitApplication.addActionListener(actionEvent -> {
             //creates two options for the user to choose to confirm or not
@@ -64,6 +153,9 @@ public class Gamemode {
                 dialogFrame.setVisible(false);
             }
         });
+        /**
+         * TODO: SAVE STATES AND LOADING
+         */
         JMenuItem saveGame = new JMenuItem("Save Game");
         JMenuItem loadGame = new JMenuItem("Load Game");
         exit.add(toMainMenu);
@@ -74,60 +166,113 @@ public class Gamemode {
         gameMenu.add(exit);
         frame.setJMenuBar(gameMenu);
     }
-    public void setUpBoard() {
+
+    /** Sets up the board for the user to play
+     * @throws IOException - involves FileIO
+     */
+    public void setUpBoard() throws IOException {
+        //creates grid JPanel with appropriate sectioning for the JLabels
         grid = new JPanel(new GridLayout(ROWSIZE, COLSIZE + 1)) {
+            //usage of dimension object to size the JLabels
             @Override
+            /**
+             * Effectively takes the largest possible square possible in the JLabel to place tiles in
+             */
             public final Dimension getSize() {
+                //gets defualt size of the grid
                 Dimension d = super.getPreferredSize();
                 Dimension realSize;
+                //gets size of the JFrame that contains the panel
                 Component c = getParent();
+                //if there is no frame (this condition just included in case of later scope changes)
                 if (c == null) {
                     realSize = new Dimension((int) d.getWidth(), (int) d.getHeight());
-                } else if (c.getWidth() > d.getWidth() && c.getHeight() > d.getHeight()) {
+                }
+                //if the JFrame is bigger than the default container, set the JFrame container to the real container
+                else if (c.getWidth() > d.getWidth() && c.getHeight() > d.getHeight()) {
                     realSize = c.getSize();
-                } else {
+                }
+                //set size to the JFrame if the JFrame is the smaller one
+                else {
                     realSize = d;
                 }
+                //take the smaller of the lengths and width to set the square length
                 int smaller = Math.min((int) realSize.getHeight(), (int) realSize.getWidth());
                 return new Dimension(smaller, smaller);
             }
         };
+        //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
         filled = new int[ROWSIZE][COLSIZE];
         buttons = new JButton[ROWSIZE];
+        //fills with -1 to signal that nothing has any tiles in it for now
         for (int[] ints : filled) {
             Arrays.fill(ints, -1);
         }
+        //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
+            //numbers the buttons so it is more obvious where to press
             buttons[i] = new JButton(String.valueOf(i + 1));
+            //since i use an anonymous functional lambada, i need to duplicate the local variable to use within it
             int finalI = i;
             buttons[i].addActionListener(
                     actionEvent -> {
+                        //displays status message on who's turn it is
+                        //if the turn is odd, it is player 2's turn
+                        if (turn%2==1){
+                            frame.setTitle("Player 2 Turn");
+                        }
+                        //otherwise it is player 1 turn
+                        else{
+                            frame.setTitle("Player 1 Turn");
+                        }
+                        //looks for the lowest availiabe position in the column to simulate gravity
                        for (int c = COLSIZE-1; c >= 0; c--){
+                           //if there is a nonfilled spot
                            if (filled[finalI][c] == -1){
+                               //mark it as filled
                                filled[finalI][c] = turn%2;
+                               //if player is player 1
                                if (turn%2==1){
                                    slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
                                }
+                               //if player is player 2
                                else{
                                    slots [finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                                }
+                               //centers the icon so that nothing bad can happen to it
+                               slots [finalI][c].setHorizontalAlignment(JLabel.CENTER);
+                               slots [finalI][c].setVerticalAlignment(JLabel.CENTER);
+                               //checks if there is any player that has just won off of this tile placement
+                               //the checkwin will automatically terminate this object if there is a winner
+                               try {
+                                   checkWin(finalI,c,turn%2);
+                               } catch (IOException e) {
+                                   e.printStackTrace();
+                               }
+                               //increases the turn
                                turn++;
+                               //repains and revalidates the frame
                                frame.repaint();
                                frame.revalidate();
+                               //stops looking for another tile
                                break;
                            }
+                           //if no tile was empty, force the user to select another column
                            if (c==0){
                                JOptionPane.showMessageDialog(frame, "This column is full, try another");
                            }
                        }
                     }
             );
+            //add the button to the grid
             grid.add(buttons[i]);
         }
+        //add all of the empty slots into the grid
         for (int c = 0; c < COLSIZE; c++) {
             for (int r = 0; r < ROWSIZE; r++) {
                 slots[r][c] = new JLabel();
+                //makes it so that one can distinguish between different tiles
                 slots[r][c].setBorder(new LineBorder(Color.DARK_GRAY));
                 grid.add(slots[r][c]);
             }

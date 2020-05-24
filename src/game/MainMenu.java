@@ -1,6 +1,8 @@
 package game;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -62,6 +64,13 @@ public class MainMenu {
                 }
         );
         JButton easyAI = new JButton("Singleplayer - Easy");
+        easyAI.addActionListener(actionEvent -> {
+            try{
+                RandomAI rai = new RandomAI(frame);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         JButton hardAI = new JButton("Singleplayer - Hard");
         //adds title label to the titlebar
         title.add(titleLabel);

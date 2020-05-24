@@ -15,17 +15,17 @@ import java.util.Scanner;
 
 public class Gamemode {
     //array of directions used for the checkWin method
-    private int[][] directions = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+    protected int[][] directions = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
     //array of JLabels where the connect 4 tiles are placed
-    private JLabel[][] slots;
+    protected JLabel[][] slots;
     //array correstpinding to slots with an unfilled value being -1, player 1 filled being 1, and player 2 filled being 0
-    private int [][] filled;
+    protected int [][] filled;
     //buttons to place tiles at the top
-    private JButton[] buttons;
+    protected JButton[] buttons;
     //the panel that hosts the entire grid
-    private JPanel grid;
+    protected JPanel grid;
     //odd turns are player 1, even are player 2
-    int turn = 1;
+    protected int turn = 1;
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
     JFrame frame;
@@ -106,23 +106,30 @@ public class Gamemode {
             MainMenu mm = new MainMenu(frame);
         }
         else{
+            //for every single column represented in the save file
             for (int i = 0; i < COLSIZE; i++){
+                //read and split values into a string array
                 String [] curCol = fileReader.nextLine().split(" ");
+                //for each value in a specificed column
                 for (int j = 0; j < ROWSIZE; j++){
+                    //fill it with the appropriate info
                     slots [j][i] = new JLabel();
                     filled [j][i] = Integer.parseInt(curCol[j]);
+                    //if it is player 1, fill with player 1 colors
                     if (filled[j][i] == 1){
                         slots [j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     }
+                    //if it is player 2, fill with player 2 colors
                     else if (filled[j][i] == 0){
                         slots [j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     }
+                    //add appropriate border
                     slots[j][i].setBorder(new LineBorder(Color.DARK_GRAY));
                     grid.add(slots[j][i]);
                 }
@@ -132,7 +139,7 @@ public class Gamemode {
         frame.add(grid);
     }
 
-    private void setUpButtons () {
+    public void setUpButtons () {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press

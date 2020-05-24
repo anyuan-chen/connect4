@@ -79,7 +79,9 @@ public class MainMenu {
         selection.add(easyAI);
         selection.add(hardAI);
     }
-    public MainMenu(JFrame frame) throws IOException{
+    public MainMenu(JFrame frame) throws IOException, FontFormatException {
+        frame.getContentPane().setBackground(Color.white);
+        setUpVisuals();
         setUpMenu();
         setUpPanel();
         //adds creates layout to have the two panels stacked on top of each other
@@ -91,7 +93,16 @@ public class MainMenu {
         frame.setSize(600,600);
         frame.setVisible(true);
     }
-    public static void main(String[] args) throws IOException {
+
+    private void setUpVisuals() throws IOException, FontFormatException {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Font montserrat = Font.createFont(Font.TRUETYPE_FONT, new File("./src/Assets/Montserrat-BoldItalic.ttf")).deriveFont(40f);
+        ge.registerFont(montserrat);
+        UIManager.put("Label.font", montserrat);
+        UIManager.put("Button.font", "Arial");
+    }
+
+    public static void main(String[] args) throws IOException, FontFormatException {
         //creates instance of the application
         MainMenu m = new MainMenu(frame);
     }

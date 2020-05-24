@@ -1,6 +1,7 @@
 package game;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -10,7 +11,7 @@ public class RandomAI extends Gamemode{
         super(frame);
     }
 
-    public RandomAI(JFrame frame, File save) throws IOException {
+    public RandomAI(JFrame frame, File save) throws IOException, FontFormatException {
         super(frame, save);
     }
     @Override
@@ -53,7 +54,7 @@ public class RandomAI extends Gamemode{
                                 //the checkwin will automatically terminate this object if there is a winner
                                 try {
                                     checkWin(finalI, c, turn % 2);
-                                } catch (IOException e) {
+                                } catch (IOException | FontFormatException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn
@@ -71,7 +72,7 @@ public class RandomAI extends Gamemode{
                         }
                         try {
                             aiMove();
-                        } catch (IOException | InterruptedException e) {
+                        } catch (IOException | InterruptedException | FontFormatException e) {
                             e.printStackTrace();
                         }
                     }
@@ -81,7 +82,7 @@ public class RandomAI extends Gamemode{
         }
     }
 
-    private void aiMove() throws IOException, InterruptedException {
+    private void aiMove() throws IOException, InterruptedException, FontFormatException {
         if (turn%2==0){
             boolean validChoice = false;
             int choose;

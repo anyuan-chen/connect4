@@ -47,7 +47,7 @@ public class Gamemode {
      * @param frame - to display the gameboard
      * @param save - save file to load
      */
-    public Gamemode(JFrame frame, File save) throws IOException {
+    public Gamemode(JFrame frame, File save) throws IOException, FontFormatException {
         this.frame = frame;
         frame.setLayout(new BorderLayout());
         frame.getContentPane().removeAll();
@@ -58,7 +58,7 @@ public class Gamemode {
         frame.repaint();
     }
 
-    private void setUpLoadedBoard(File save) throws IOException {
+    private void setUpLoadedBoard(File save) throws IOException, FontFormatException {
         //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
         filled = new int[ROWSIZE][COLSIZE];
@@ -178,7 +178,7 @@ public class Gamemode {
                                 //the checkwin will automatically terminate this object if there is a winner
                                 try {
                                     checkWin(finalI, c, turn % 2);
-                                } catch (IOException e) {
+                                } catch (IOException | FontFormatException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn
@@ -208,7 +208,7 @@ public class Gamemode {
      * @param value - is this player 1 or player 2, if it is player 1 this value will be 1 while it will be 0 for player 2
      * @throws IOException - involves a bit of FileIO
      */
-    public void checkWin(int x, int y, int value) throws IOException {
+    public void checkWin(int x, int y, int value) throws IOException, FontFormatException {
         //if all of the tiles have been filled
         if (turn == 42){
             //return to the main menu because it is a tie
@@ -285,7 +285,7 @@ public class Gamemode {
             try {
                 //returns to main menu
                 MainMenu mm = new MainMenu(frame);
-            } catch (IOException e) {
+            } catch (IOException | FontFormatException e) {
                 e.printStackTrace();
             }
         });
@@ -346,7 +346,7 @@ public class Gamemode {
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
                 TwoPlayer gm = new TwoPlayer(frame, new File("./src/Assets/SAVE.txt"));
-            } catch (IOException e) {
+            } catch (IOException | FontFormatException e) {
                 e.printStackTrace();
             }
         });

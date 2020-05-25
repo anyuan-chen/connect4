@@ -306,13 +306,14 @@ public class Gamemode {
                     possiblities,
                     "Yes"
             );
-            //if yes was selected, exit
-            if (optionChosen.equals("Yes")) {
-                System.exit(0);
-            }
             //if no was selected, just close the pane
-            else {
+            //if the optionChosen is null, that is taken as the user not wanting to close
+            if (optionChosen == null || optionChosen.equals("Cancel")){
                 dialogFrame.setVisible(false);
+            }
+            //if yes was selected, exit
+            else if (optionChosen.equals("Yes")) {
+                System.exit(0);
             }
         });
         JMenuItem saveGame = new JMenuItem("Save Game");

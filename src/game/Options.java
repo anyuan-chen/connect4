@@ -24,10 +24,29 @@ public class Options {
         Integer [] difficulty = {1,2,3,4,5};
         //creation of new comboboxes for the user to select
         JComboBox<String> player1Color = new JComboBox<String>(colors);
+        for (int i = 0; i < colors.length; i++){
+            if ((colors[i]+".png").equals(player1CurrentColor)){
+                player1Color.setSelectedIndex(i);
+            }
+        }
         JComboBox<String> player2Color = new JComboBox<String>(colors);
+        for (int i = 0; i < colors.length; i++){
+            if ((colors[i]+".png").equals(player2CurrentColor)){
+                player2Color.setSelectedIndex(i);
+            }
+        }
         JComboBox<Integer> aiDifficulty = new JComboBox<Integer>(difficulty);
+        for (int i = 0; i < difficulty.length; i++){
+            if (difficulty[i] == currentDifficulty){
+                aiDifficulty.setSelectedIndex(i);
+            }
+        }
         JComboBox<Integer> ai2Difficulty = new JComboBox<Integer>(difficulty);
-
+        for (int i = 0; i < difficulty.length; i++){
+            if (difficulty[i] == currentModerateDifficulty){
+                ai2Difficulty.setSelectedIndex(i);
+            }
+        }
         //following 3 blocks of code are adding the label and combobox for a respective to topic to a panel
         JPanel color1Panel = new JPanel();
         color1Panel.add(colorLabel);

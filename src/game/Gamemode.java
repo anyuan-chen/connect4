@@ -1,4 +1,9 @@
-package game;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ics4u_connect4;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -12,14 +17,14 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
 public class Gamemode {
+
     //array of directions used for the checkWin method
     protected int[][] directions = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
     //array of JLabels where the connect 4 tiles are placed
     protected JLabel[][] slots;
     //array correstpinding to slots with an unfilled value being -1, player 1 filled being 1, and player 2 filled being 0
-    protected int [][] filled;
+    protected int[][] filled;
     //buttons to place tiles at the top
     protected JButton[] buttons;
     //the panel that hosts the entire grid
@@ -29,6 +34,7 @@ public class Gamemode {
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
     JFrame frame;
+
     /**
      * @param frame - needed to display the gameboard
      * @throws IOException - deals with fileIO
@@ -43,6 +49,7 @@ public class Gamemode {
         frame.revalidate();
         frame.repaint();
     }
+
     /**
      * @param frame - to display the gameboard
      * @param save - save file to load
@@ -68,7 +75,8 @@ public class Gamemode {
             //usage of dimension object to size the JLabels
             @Override
             /**
-             * Effectively takes the largest possible square possible in the JLabel to place tiles in
+             * Effectively takes the largest possible square possible in the
+             * JLabel to place tiles in
              */
             public final Dimension getSize() {
                 //gets defualt size of the grid
@@ -79,12 +87,10 @@ public class Gamemode {
                 //if there is no frame (this condition just included in case of later scope changes)
                 if (c == null) {
                     realSize = new Dimension((int) d.getWidth(), (int) d.getHeight());
-                }
-                //if the JFrame is bigger than the default container, set the JFrame container to the real container
+                } //if the JFrame is bigger than the default container, set the JFrame container to the real container
                 else if (c.getWidth() > d.getWidth() && c.getHeight() > d.getHeight()) {
                     realSize = c.getSize();
-                }
-                //set size to the JFrame if the JFrame is the smaller one
+                } //set size to the JFrame if the JFrame is the smaller one
                 else {
                     realSize = d;
                 }
@@ -95,36 +101,34 @@ public class Gamemode {
         };
         Scanner fileReader = new Scanner(save);
         int turnNumber = Integer.parseInt(fileReader.nextLine());
-        if (turnNumber%2 == 0){
+        if (turnNumber % 2 == 0) {
             frame.setTitle("Player 2 Turn");
         }
         setUpButtons();
         //the save file will have a default of -1 as the turn number if nothing was saved into it
-        if(turnNumber == -1){
+        if (turnNumber == -1) {
             JOptionPane.showMessageDialog(new JFrame(), "No save file exists, a new game will be created instead",
                     "Error", JOptionPane.INFORMATION_MESSAGE);
             MainMenu mm = new MainMenu(frame);
-        }
-        else{
+        } else {
             //for every single column represented in the save file
-            for (int i = 0; i < COLSIZE; i++){
+            for (int i = 0; i < COLSIZE; i++) {
                 //read and split values into a string array
-                String [] curCol = fileReader.nextLine().split(" ");
+                String[] curCol = fileReader.nextLine().split(" ");
                 //for each value in a specificed column
-                for (int j = 0; j < ROWSIZE; j++){
+                for (int j = 0; j < ROWSIZE; j++) {
                     //fill it with the appropriate info
-                    slots [j][i] = new JLabel();
-                    filled [j][i] = Integer.parseInt(curCol[j]);
+                    slots[j][i] = new JLabel();
+                    filled[j][i] = Integer.parseInt(curCol[j]);
                     //if it is player 1, fill with player 1 colors
-                    if (filled[j][i] == 1){
-                        slots [j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                    if (filled[j][i] == 1) {
+                        slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
-                    }
-                    //if it is player 2, fill with player 2 colors
-                    else if (filled[j][i] == 0){
-                        slots [j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                    } //if it is player 2, fill with player 2 colors
+                    else if (filled[j][i] == 0) {
+                        slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
@@ -139,7 +143,7 @@ public class Gamemode {
         frame.add(grid);
     }
 
-    public void setUpButtons () {
+    public void setUpButtons() {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press
@@ -152,8 +156,7 @@ public class Gamemode {
                         //if the turn is odd, it is player 2's turn
                         if (turn % 2 == 1) {
                             frame.setTitle("Player 2 Turn");
-                        }
-                        //otherwise it is player 1 turn
+                        } //otherwise it is player 1 turn
                         else {
                             frame.setTitle("Player 1 Turn");
                         }
@@ -166,8 +169,7 @@ public class Gamemode {
                                 //if player is player 1
                                 if (turn % 2 == 1) {
                                     slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
-                                }
-                                //if player is player 2
+                                } //if player is player 2
                                 else {
                                     slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                                 }
@@ -201,16 +203,16 @@ public class Gamemode {
         }
     }
 
-
     /**
      * @param x - which row
      * @param y - which column
-     * @param value - is this player 1 or player 2, if it is player 1 this value will be 1 while it will be 0 for player 2
+     * @param value - is this player 1 or player 2, if it is player 1 this value
+     * will be 1 while it will be 0 for player 2
      * @throws IOException - involves a bit of FileIO
      */
     public void checkWin(int x, int y, int value) throws IOException, FontFormatException {
         //if all of the tiles have been filled
-        if (turn == 42){
+        if (turn == 42) {
             //return to the main menu because it is a tie
             JOptionPane.showMessageDialog(new JFrame(), "A tie has occurred, the game will now reset. The game will now return to the main menu",
                     "information", JOptionPane.INFORMATION_MESSAGE);
@@ -218,30 +220,27 @@ public class Gamemode {
             MainMenu mm = new MainMenu(frame);
         }
         //for all the different directions
-        for (int [] direction : directions){
+        for (int[] direction : directions) {
             //check if the current tile placed will cause a connect 4 to happen
-            if (checkWinUtility(x,y,value,1,direction)){
+            if (checkWinUtility(x, y, value, 1, direction)) {
                 //if this is the player 2 that placed the piece
-                if (turn%2==0){
+                if (turn % 2 == 0) {
                     //show the dialog box and return to main menu
                     JOptionPane.showMessageDialog(new JFrame(), "Player 2 has won. The game will now return to the main menu",
                             "information", JOptionPane.INFORMATION_MESSAGE);
-                    if (this.getClass() == TwoPlayer.class){
+                    if (this.getClass() == TwoPlayer.class) {
                         Statistics.player2Win++;
-                    }
-                    else{
+                    } else {
                         Statistics.computerWin++;
                     }
-                }
-                //if this is the player 1 that placed the piece
-                else{
+                } //if this is the player 1 that placed the piece
+                else {
                     //show the dialog box and return to main menu
                     JOptionPane.showMessageDialog(frame, "Player 1 has won. The game will now return to the main menu",
                             "information", JOptionPane.INFORMATION_MESSAGE);
-                    if (this.getClass() == TwoPlayer.class){
+                    if (this.getClass() == TwoPlayer.class) {
                         Statistics.player1Win++;
-                    }
-                    else{
+                    } else {
                         Statistics.playerWin++;
                     }
                 }
@@ -250,35 +249,39 @@ public class Gamemode {
             }
         }
     }
+
     /**
      * @param x - which row
      * @param y - which volumn
-     * @param value - is this player 1 or player 2, if it is player 1 this value will be 1 while it will be 0 for player 2
-     * @param amountInARow - since this is recursive, how many pieces are in a row already
-     * @param direction - up down left right or any of the four diagonals, this is represented as an x-y coordinate (eg. up would be (0,1))
+     * @param value - is this player 1 or player 2, if it is player 1 this value
+     * will be 1 while it will be 0 for player 2
+     * @param amountInARow - since this is recursive, how many pieces are in a
+     * row already
+     * @param direction - up down left right or any of the four diagonals, this
+     * is represented as an x-y coordinate (eg. up would be (0,1))
      * @return - true if there exists 4 in a row
      */
-    public boolean checkWinUtility(int x, int y, int value, int amountInARow, int [] direction){
+    public boolean checkWinUtility(int x, int y, int value, int amountInARow, int[] direction) {
         //if the amount is 4 in a row, then connect 4 is complete
-        if (amountInARow == 4){
+        if (amountInARow == 4) {
             return true;
         }
         //try catch in case the recursive function goes out of bounds
         try {
             //if the next tile in the given direction is the same as the starting one
-            if (filled[x + direction[0]][y+direction[1]] == value){
+            if (filled[x + direction[0]][y + direction[1]] == value) {
                 //keep going until there is 4 in a row
-                return checkWinUtility(x + direction[0], y+direction[1], value, amountInARow+1, direction);
-            }
-            //a different tile from the start means no connect 4 has been achieved
-            else{
+                return checkWinUtility(x + direction[0], y + direction[1], value, amountInARow + 1, direction);
+            } //a different tile from the start means no connect 4 has been achieved
+            else {
                 return false;
             }
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             //going out of the array also means that connect 4 has not been reached
             return false;
         }
     }
+
     /**
      * Sets up the menu bar for the user
      */
@@ -320,10 +323,9 @@ public class Gamemode {
             );
             //if no was selected, just close the pane
             //if the optionChosen is null, that is taken as the user not wanting to close
-            if (optionChosen == null || optionChosen.equals("Cancel")){
+            if (optionChosen == null || optionChosen.equals("Cancel")) {
                 dialogFrame.setVisible(false);
-            }
-            //if yes was selected, exit
+            } //if yes was selected, exit
             else if (optionChosen.equals("Yes")) {
                 System.exit(0);
             }
@@ -349,8 +351,7 @@ public class Gamemode {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-            }
-            //if no was selected, just close the pane
+            } //if no was selected, just close the pane
             else {
                 dialogFrame.setVisible(false);
             }
@@ -375,8 +376,8 @@ public class Gamemode {
     private void saveGame() throws FileNotFoundException {
         PrintWriter wtf = new PrintWriter(new File("./src/Assets/SAVE.txt"));
         wtf.println(turn);
-        for (int i = 0; i < 6; i++){
-            for (int j = 0; j < 7; j++){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
                 wtf.print(filled[j][i]);
                 wtf.print(" ");
             }
@@ -385,7 +386,9 @@ public class Gamemode {
         wtf.close();
     }
 
-    /** Sets up the board for the user to play
+    /**
+     * Sets up the board for the user to play
+     *
      * @throws IOException - involves FileIO
      */
     public void setUpBoard() throws IOException {
@@ -394,7 +397,8 @@ public class Gamemode {
             //usage of dimension object to size the JLabels
             @Override
             /**
-             * Effectively takes the largest possible square possible in the JLabel to place tiles in
+             * Effectively takes the largest possible square possible in the
+             * JLabel to place tiles in
              */
             public final Dimension getSize() {
                 //gets defualt size of the grid
@@ -405,12 +409,10 @@ public class Gamemode {
                 //if there is no frame (this condition just included in case of later scope changes)
                 if (c == null) {
                     realSize = new Dimension((int) d.getWidth(), (int) d.getHeight());
-                }
-                //if the JFrame is bigger than the default container, set the JFrame container to the real container
+                } //if the JFrame is bigger than the default container, set the JFrame container to the real container
                 else if (c.getWidth() > d.getWidth() && c.getHeight() > d.getHeight()) {
                     realSize = c.getSize();
-                }
-                //set size to the JFrame if the JFrame is the smaller one
+                } //set size to the JFrame if the JFrame is the smaller one
                 else {
                     realSize = d;
                 }

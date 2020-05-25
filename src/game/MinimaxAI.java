@@ -17,7 +17,7 @@ public class MinimaxAI {
 
     public static final int lineOf2 = 2; //Score for a line of 2 (AI)
     public static final int lineOf3 = 5; //Score for a line of 3 (AI)
-    public static final int lineOf4 = 1000; ///Score for a line of 4 (AI)
+    public static final int lineOf4 = 10000; ///Score for a line of 4 (AI)
 
     public static final int lineOf2Opp = 2; //Score for a line of 2 (OPP)
     public static final int lineOf3Opp = 7; //Score for a line of 3 (OPP)
@@ -27,8 +27,8 @@ public class MinimaxAI {
 
     public static int initialDepth; //Depth of the minimax algorithm
 
-    public static int player1 = 1; //Integer that represents player1 (human)
-    public static int player2 = 2; //Integer that represents player 2 (AI)
+    public static int player1; //Integer that represents player1 (human)
+    public static int player2; //Integer that represents player 2 (AI)
 
     public static ArrayList<Integer> scores = new ArrayList(); //Arraylist that stores the scores for each move (calculated using minimax)
 
@@ -122,9 +122,9 @@ public class MinimaxAI {
             }
         } //This ensures that all score arrayLists have 7 elements and the proper column is returned
 
-        //System.out.println("score: " + score); ->DEBUG
+        System.out.println("score: " + scores); //->DEBUG
         int index = scores.indexOf(score); //Finds the index of the score
-        System.out.println("scores: " + scores);
+
         scores.clear(); //Clear the array for the next move
         return index;
     }
@@ -282,18 +282,17 @@ public class MinimaxAI {
         return -1;
     }
 
-    public static void main(String[] args) {
-        int[][] preset = {{-1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, 1, -1, -1, -1, -1}};
-
-        System.out.println(initialDepth);
-        System.out.println(makeMove(move(initialDepth, true, preset), preset));
-
-    }
-
+    /**
+     * public static void main(String[] args) { int[][] preset = {{-1, -1, -1,
+     * -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1,
+     * -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1,
+     * 1, -1, -1, -1, -1}};
+     *
+     * System.out.println(initialDepth);
+     * System.out.println(makeMove(move(initialDepth, true, preset), preset));
+     *
+     * }
+     *
+     */
     //->DEBUG
 }

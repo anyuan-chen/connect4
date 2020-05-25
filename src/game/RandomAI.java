@@ -1,11 +1,19 @@
-package game;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ics4u_connect4;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
-public class RandomAI extends Gamemode{
+public class RandomAI extends Gamemode {
+
+    MinimaxAI ai = new MinimaxAI(Options.currentDifficulty, -1, 0);
 
     public RandomAI(JFrame frame) throws IOException {
         super(frame);
@@ -14,8 +22,9 @@ public class RandomAI extends Gamemode{
     public RandomAI(JFrame frame, File save) throws IOException, FontFormatException {
         super(frame, save);
     }
+
     @Override
-    public void setUpButtons () {
+    public void setUpButtons() {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press
@@ -28,8 +37,7 @@ public class RandomAI extends Gamemode{
                         //if the turn is odd, it is player 2's turn
                         if (turn % 2 == 1) {
                             frame.setTitle("Player 2 Turn");
-                        }
-                        //otherwise it is player 1 turn
+                        } //otherwise it is player 1 turn
                         else {
                             frame.setTitle("Player 1 Turn");
                         }
@@ -42,8 +50,7 @@ public class RandomAI extends Gamemode{
                                 //if player is player 1
                                 if (turn % 2 == 1) {
                                     slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
-                                }
-                                //if player is player 2
+                                } //if player is player 2
                                 else {
                                     slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                                 }
@@ -81,25 +88,33 @@ public class RandomAI extends Gamemode{
             grid.add(buttons[i]);
         }
     }
+    int[][] newArray = new int[filled[0].length][filled.length];
+
+    public void reverseFilled() {
+        for (int i = 0; i < filled.length; i++) {
+            for (int j = 0; j < filled[0].length; j++) {
+                newArray[j][i] = filled[i][j];
+            }
+        }
+    }
 
     private void aiMove() throws IOException, InterruptedException, FontFormatException {
-        if (turn%2==0){
+        reverseFilled();
+        if (turn % 2 == 0) {
             boolean validChoice = false;
-            int choose;
-            do{
-                choose = (int) (Math.random() * 7);
-                for (int a = 0 ; a < 6; a++){
-                    if (filled[choose][a] == -1){
-                        validChoice = true;
-                        checkWin(choose, a, turn % 2);
-                        break;
-                    }
-                }
-            } while (!validChoice);
+
+            for (int i = 0; i < newArray.length; i++) {
+                System.out.println(Arrays.toString(newArray[i]));
+            }
+            System.out.println("diff " + Options.currentDifficulty);
+            int high = ai.move(Options.currentDifficulty, true, newArray);
+            System.out.println(high);
+            int choose = ai.makeMove(high, newArray);
+
             frame.repaint();
             frame.revalidate();
             buttons[choose].doClick();
-
         }
     }
+
 }

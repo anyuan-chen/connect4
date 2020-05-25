@@ -13,7 +13,7 @@ import java.util.*;
 
 public class RandomAI extends Gamemode {
 
-    MinimaxAI ai = new MinimaxAI(Options.currentDifficulty, -1, 0);
+    MinimaxAI ai = new MinimaxAI(Options.currentDifficulty, 1, 0);
 
     public RandomAI(JFrame frame) throws IOException {
         super(frame);
@@ -103,17 +103,20 @@ public class RandomAI extends Gamemode {
         if (turn % 2 == 0) {
             boolean validChoice = false;
 
-            for (int i = 0; i < newArray.length; i++) {
-                System.out.println(Arrays.toString(newArray[i]));
-            }
-            System.out.println("diff " + Options.currentDifficulty);
+            /**
+             * for (int i = 0; i < newArray.length; i++) {
+             * System.out.println(Arrays.toString(newArray[i])); }
+             * System.out.println("diff " + Options.currentDifficulty);
+             *
+             */
             int high = ai.move(Options.currentDifficulty, true, newArray);
-            System.out.println(high);
+            //System.out.println(high);
             int choose = ai.makeMove(high, newArray);
 
             frame.repaint();
             frame.revalidate();
             buttons[choose].doClick();
+
         }
     }
 

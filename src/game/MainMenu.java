@@ -18,6 +18,7 @@ public class MainMenu {
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem instructions = new JMenuItem("Instructions");
+        JMenuItem statistics = new JMenuItem("Statistics");
         JMenuItem options = new JMenuItem("Options");
         //makes the exit button exit when it is clicked
         exit.addActionListener(
@@ -39,8 +40,14 @@ public class MainMenu {
                     Options s = new Options();
                 }
         );
+        statistics.addActionListener(
+                actionEvent -> {
+                    Statistics s = new Statistics();
+                }
+        );
         //adds various components to the menu bar
         settings.add(instructions);
+        settings.add(statistics);
         settings.add(options);
         settings.add(exit);
         menuBar.add(settings);

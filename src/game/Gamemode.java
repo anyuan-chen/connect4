@@ -226,12 +226,24 @@ public class Gamemode {
                     //show the dialog box and return to main menu
                     JOptionPane.showMessageDialog(new JFrame(), "Player 2 has won. The game will now return to the main menu",
                             "information", JOptionPane.INFORMATION_MESSAGE);
+                    if (this.getClass() == TwoPlayer.class){
+                        Statistics.player2Win++;
+                    }
+                    else{
+                        Statistics.computerWin++;
+                    }
                 }
                 //if this is the player 1 that placed the piece
                 else{
                     //show the dialog box and return to main menu
                     JOptionPane.showMessageDialog(frame, "Player 1 has won. The game will now return to the main menu",
                             "information", JOptionPane.INFORMATION_MESSAGE);
+                    if (this.getClass() == TwoPlayer.class){
+                        Statistics.player1Win++;
+                    }
+                    else{
+                        Statistics.playerWin++;
+                    }
                 }
                 //returns to the main menu
                 MainMenu mm = new MainMenu(frame);

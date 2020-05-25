@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package ics4u_connect4;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class MinimaxAI {
 
     public static final int lineOf2 = 2; //Score for a line of 2 (AI)
     public static final int lineOf3 = 5; //Score for a line of 3 (AI)
-    public static final int lineOf4 = 10000; ///Score for a line of 4 (AI)
+    public static final int lineOf4 = 1000; ///Score for a line of 4 (AI)
 
     public static final int lineOf2Opp = 2; //Score for a line of 2 (OPP)
     public static final int lineOf3Opp = 7; //Score for a line of 3 (OPP)
@@ -56,12 +56,12 @@ public class MinimaxAI {
      */
     public static int move(int depth, boolean aiTurn, int[][] board) {
 
-        //System.out.println("start of move method, depth " + depth); ->DEBUG
+        //System.out.println("start of move method, depth " + depth); //->DEBUG
         if (depth == 0) { //Terminating condition
             //System.out.println(aiTurn); ->DEBUG
-            //System.out.println("score: " + score); ->DEBUG
 
             int score = getScore(board, player2, player1); //Calls getScore method to return a static evaluation of the boardstate
+            //System.out.println("score: " + score); //->DEBUG
             return score; //Return that score
         }
 
@@ -117,12 +117,13 @@ public class MinimaxAI {
             missing.add(legalMoves(board)[i]); //Copy the legal move indexes to the arrayList
         }
         for (int i = 0; i < board[0].length; i++) {
-            if (!missing.contains(i)) { //If a value is considered legal (not in missing)
+            //System.out.println("scores before add: " + scores); //->DEBUG
+            if (!missing.contains(i)) { //If a value is considered illegal (not in missing)
                 scores.add(i, Integer.MIN_VALUE); //Add a placeholder value
             }
         } //This ensures that all score arrayLists have 7 elements and the proper column is returned
 
-        System.out.println("score: " + scores); //->DEBUG
+        //System.out.println("score: " + scores); //->DEBUG
         int index = scores.indexOf(score); //Finds the index of the score
 
         scores.clear(); //Clear the array for the next move
@@ -281,6 +282,40 @@ public class MinimaxAI {
         return -1;
     }
 
+    public static boolean isOver(int[][] board) {
+        for (int i = board.length - 1; i >= 0; i--) {
+            for (int j = 0; j < board[0].length; j++) {
+
+                for (int k = 0; k < 4; k++) {
+                    if (checkWin(j, i, player1, k, board) + checkWin(j, i, player1, k + 4, board) == 4
+                            || checkWin(j, i, player1, k, board) + checkWin(j, i, player1, k + 4, board) == 4) {
+                        System.out.println("over");
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    public static int checkWin(int x, int y, int value, int dcount, int[][] board) {
+
+        x += directions[dcount][0]; //x and y are updated to be an adjacent piece
+        y += directions[dcount][1];
+
+        try {
+
+            if (board[y][x] == value) { //If the piece adjacent has the same value
+                return 1 + checkWin(x, y, value, dcount, board); //Add 1 and then check the next adjacent piece
+            } else {
+                return 0; //Return 0 if the adjacent piece does not have the same value
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) { //Catch the array out of bounds exception
+            return 0; //If OutOfBounds, return 0 (since there is no piece adjacent)
+        }
+    }
     /**
      * public static void main(String[] args) { int[][] preset = {{-1, -1, -1,
      * -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1,

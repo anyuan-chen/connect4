@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MainMenu {
@@ -12,7 +13,12 @@ public class MainMenu {
     //creation of panels to organize the main menu for the frame
     JPanel title = new JPanel();
     JPanel selection = new JPanel();
+    static boolean statsLoaded = false;
     public void setUpMenu () throws IOException {
+        if (!statsLoaded){
+            Statistics.importStats();
+            statsLoaded = !statsLoaded;
+        }
         frame.getContentPane().removeAll();
         JMenuBar menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
@@ -22,7 +28,14 @@ public class MainMenu {
         JMenuItem options = new JMenuItem("Options");
         //makes the exit button exit when it is clicked
         exit.addActionListener(
-                actionEvent -> System.exit(0)
+                actionEvent ->{
+                    try {
+                        Statistics.saveStats();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    System.exit(0);
+                }
         );
         //tries to open notepad to open the instructions file if the user selects this menu option
         instructions.addActionListener(
@@ -42,7 +55,11 @@ public class MainMenu {
         );
         statistics.addActionListener(
                 actionEvent -> {
-                    Statistics s = new Statistics();
+                    try {
+                        Statistics s = new Statistics();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
         );
         //adds various components to the menu bar

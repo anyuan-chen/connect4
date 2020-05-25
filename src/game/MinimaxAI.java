@@ -266,7 +266,6 @@ public class MinimaxAI {
 
     /**
      * @param col: the column the user selects
-     * @param value: the value of the piece (1 for player 1, 2 for player 2)
      * @param board: the board the game is played on
      * @return the row where the piece should be, -1 if the column is filled
      */

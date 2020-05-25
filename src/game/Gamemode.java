@@ -325,6 +325,11 @@ public class Gamemode {
             }
             //if yes was selected, exit
             else if (optionChosen.equals("Yes")) {
+                try {
+                    Statistics.saveStats();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 System.exit(0);
             }
         });

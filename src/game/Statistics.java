@@ -4,15 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Statistics {
-    static int playerWin = 0;
-    static int computerWin = 0;
-    static int player1Win = 0;
-    static int player2Win = 0;
+    static int playerWin = -1;
+    static int computerWin = -1;
+    static int player1Win = -1;
+    static int player2Win = -1;
 
     JFrame jf = new JFrame();
-    public Statistics() {
+    public Statistics() throws FileNotFoundException {
         jf.setLayout(new GridLayout(3,1));
         addPVPStats();
         addPVCStats();
@@ -23,6 +27,27 @@ public class Statistics {
         jf.setSize(400,300);
         jf.setVisible(true);
     }
+
+    public static void importStats() throws FileNotFoundException {
+        File statsFile = new File("./src/Assets/STATISTICS.txt");
+        Scanner statsReader = new Scanner(statsFile);
+        playerWin = Integer.parseInt(statsReader.nextLine());
+        System.out.println(playerWin);
+        computerWin = Integer.parseInt(statsReader.nextLine());
+        player1Win = Integer.parseInt(statsReader.nextLine());
+        player2Win = Integer.parseInt(statsReader.nextLine());
+    }
+
+    public static void saveStats() throws FileNotFoundException {
+        File statsFile = new File("./src/Assets/STATISTICS.txt");
+        PrintWriter statsSave = new PrintWriter(statsFile);
+        statsSave.println(playerWin);
+        statsSave.println(computerWin);
+        statsSave.println(player1Win);
+        statsSave.println(player2Win);
+        statsSave.close();
+    }
+
     private void addPVCStats() {
         JPanel playerVSComputer = new JPanel();
         JLabel playerWinLabel = new JLabel("The amount of times the player has beat the CPU is " + playerWin);

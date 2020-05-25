@@ -25,7 +25,7 @@ public class MinimaxAI {
 
     public static final int center = 5; //Score for a center piece
 
-    public static int initialDepth = 3; //Depth of the minimax algorithm
+    public static int initialDepth; //Depth of the minimax algorithm
 
     public static int player1 = 1; //Integer that represents player1 (human)
     public static int player2 = 2; //Integer that represents player 2 (AI)
@@ -110,7 +110,7 @@ public class MinimaxAI {
      * @param board: The boardstate
      * @return the COLUMN NUMBER (0-6) for which the best move can be played
      */
-    public static int makeMove(ArrayList<Integer> scores, int score, int[][] board) {
+    public static int makeMove(int score, int[][] board) {
         ArrayList<Integer> missing = new ArrayList<Integer>(); //Arraylist for legal moves
 
         for (int i = 0; i < legalMoves(board).length; i++) {
@@ -124,6 +124,7 @@ public class MinimaxAI {
 
         //System.out.println("score: " + score); ->DEBUG
         int index = scores.indexOf(score); //Finds the index of the score
+        System.out.println("scores: " + scores);
         scores.clear(); //Clear the array for the next move
         return index;
     }
@@ -175,7 +176,7 @@ public class MinimaxAI {
     public static int[] legalMoves(int[][] board) {
         ArrayList<Integer> legal = new ArrayList(); //Copy to arrayList
         for (int i = 0; i < board[0].length; i++) {
-            if (board[0][i] == 0) { //If the top column is empty, add the col
+            if (board[0][i] == -1) { //If the top column is empty, add the col
                 legal.add(i);
             }
         }
@@ -272,7 +273,7 @@ public class MinimaxAI {
     public static int getRow(int col, int[][] board) {
         int row;
         for (int i = board.length - 1; i >= 0; i--) { //For loop iterates through each y position
-            if (board[i][col] == 0) { //Finds the lowest y position and returns that row
+            if (board[i][col] == -1) { //Finds the lowest y position and returns that row
                 row = i;
 
                 return row;
@@ -281,14 +282,18 @@ public class MinimaxAI {
         return -1;
     }
 
-    /**
-     * public static void main(String[] args) { int[][] preset = {{0, 0, 0, 0,
-     * 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0,
-     * 0, 0}, {0, 0, 0, 0, 0, 0, 0}, {0, 1, 1, 2, 0, 0, 0}};
-     *
-     * System.out.println(makeMove(scores, move(initialDepth, true, preset),
-     * preset)); System.out.println(scores); }
-     *
-     */
+    public static void main(String[] args) {
+        int[][] preset = {{-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, 1, -1, -1, -1, -1}};
+
+        System.out.println(initialDepth);
+        System.out.println(makeMove(move(initialDepth, true, preset), preset));
+
+    }
+
     //->DEBUG
 }

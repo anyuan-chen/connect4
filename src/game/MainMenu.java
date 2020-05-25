@@ -106,7 +106,7 @@ public class MainMenu {
         frame.add(title);
         frame.add(selection);
         //sets size of the application
-        frame.setSize(600,600);
+        frame.setSize(590,600);
         frame.setVisible(true);
     }
 

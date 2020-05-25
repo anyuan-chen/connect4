@@ -435,8 +435,9 @@ public class Gamemode {
                 slots[r][c] = new JLabel();
                 slots[r][c].setHorizontalAlignment(JLabel.CENTER);
                 slots[r][c].setVerticalAlignment(JLabel.CENTER);
-                //makes it so that one can distinguish between different tiles
-                slots[r][c].setBorder(new LineBorder(Color.DARK_GRAY));
+
+                //adding picture to the slot
+                slots[r][c].setIcon(new ImageIcon("./src/Assets/board.png"));
                 grid.add(slots[r][c]);
             }
         }

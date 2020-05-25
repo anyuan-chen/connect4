@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class Options {
     public static int overallDifficulty;
     static String player1CurrentColor = "BLACK.png";
-    static String player2CurrentColor = "ORANGE.png";
+    static String player2CurrentColor = "RED.png";
     static int currentDifficulty = 2;
     static int currentModerateDifficulty = 4;
     JFrame options = new JFrame();
@@ -20,7 +20,7 @@ public class Options {
         JLabel difficultyLabelMOderate = new JLabel("Pl" + "ease select the difficulty for the moderate mode:");
 
         //options available in the combo box for colors and difficulty (depth of minmax ai)
-        String [] colors = {"BLACK", "ORANGE", "PURPLE", "YELLOW"};
+        String[] colors = {"BLACK", "ORANGE", "GREEN", "YELLOW", "RED"};
         Integer [] difficulty = {1,2,3,4,5};
         //creation of new comboboxes for the user to select
         JComboBox<String> player1Color = new JComboBox<String>(colors);

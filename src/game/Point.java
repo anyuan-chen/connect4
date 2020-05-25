@@ -1,7 +1,7 @@
 /*
  * Point class that represents a point on the board
  */
-package ics4u_connect4;
+package game;
 
 /**
  *

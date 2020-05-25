@@ -66,12 +66,21 @@ public class MainMenu {
         JButton easyAI = new JButton("Singleplayer - Easy");
         easyAI.addActionListener(actionEvent -> {
             try{
+                Options.overallDifficulty = Options.currentDifficulty;
                 RandomAI rai = new RandomAI(frame);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         JButton hardAI = new JButton("Singleplayer - Hard");
+        hardAI.addActionListener(actionEvent -> {
+            try{
+                Options.overallDifficulty = Options.currentModerateDifficulty;
+                RandomAI rai = new RandomAI(frame);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         //adds title label to the titlebar
         title.add(titleLabel);
         //adds mode selection buttons to the specified jpanel
@@ -95,11 +104,11 @@ public class MainMenu {
     }
 
     private void setUpVisuals() throws IOException, FontFormatException {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Font montserrat = Font.createFont(Font.TRUETYPE_FONT, new File("./src/Assets/Montserrat-BoldItalic.ttf")).deriveFont(40f);
-        ge.registerFont(montserrat);
-        UIManager.put("Label.font", montserrat);
-        UIManager.put("Button.font", "Arial");
+//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        Font montserrat = Font.createFont(Font.TRUETYPE_FONT, new File("./src/Assets/Montserrat-BoldItalic.ttf")).deriveFont(40f);
+//        ge.registerFont(montserrat);
+//        UIManager.put("Label.font", montserrat);
+//        UIManager.put("Button.font", "Arial");
     }
 
     public static void main(String[] args) throws IOException, FontFormatException {

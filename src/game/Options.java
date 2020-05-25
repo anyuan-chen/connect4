@@ -6,16 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Options {
+    public static int overallDifficulty;
     static String player1CurrentColor = "BLACK.png";
     static String player2CurrentColor = "ORANGE.png";
-    static int currentDifficulty = 5;
-
+    static int currentDifficulty = 2;
+    static int currentModerateDifficulty = 4;
     JFrame options = new JFrame();
     public Options(){
         //label selectors
         JLabel colorLabel = new JLabel("Please select the color for player 1:");
         JLabel color2Label = new JLabel("Please select the color for player 2/AI");
-        JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty:");
+        JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty for the easy mode:");
+        JLabel difficultyLabelMOderate = new JLabel("Pl" + "ease select the difficulty for the moderate mode:");
+
         //options available in the combo box for colors and difficulty (depth of minmax ai)
         String [] colors = {"BLACK", "ORANGE", "PURPLE", "YELLOW"};
         Integer [] difficulty = {1,2,3,4,5};
@@ -23,6 +26,7 @@ public class Options {
         JComboBox<String> player1Color = new JComboBox<String>(colors);
         JComboBox<String> player2Color = new JComboBox<String>(colors);
         JComboBox<Integer> aiDifficulty = new JComboBox<Integer>(difficulty);
+        JComboBox<Integer> ai2Difficulty = new JComboBox<Integer>(difficulty);
 
         //following 3 blocks of code are adding the label and combobox for a respective to topic to a panel
         JPanel color1Panel = new JPanel();
@@ -37,15 +41,24 @@ public class Options {
         difficultyPanel.add(difficultyLabel);
         difficultyPanel.add(aiDifficulty);
 
+        JPanel difficulty2 = new JPanel();
+        difficultyPanel.add(difficultyLabelMOderate);
+        difficultyPanel.add(ai2Difficulty);
+
         //creation of exit button which will also put into effect the changes made using the combobox
         JButton saveAndExit = new JButton("Save and Exit");
         //action listener using lambada function
         saveAndExit.addActionListener(
                 actionEvent -> {
+                    if (player1Color.getSelectedItem().equals(player2Color.getSelectedItem())){
+                        JOptionPane.showMessageDialog(new JFrame(), "Player 1 and 2 cannot have same color");
+                        return;
+                    }
                     //saves the current selected values into the static variables declared at the top of this page
                     player1CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
                     player2CurrentColor = String.valueOf(player2Color.getSelectedItem()) + ".png";
-                    currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem()));
+                    currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
+                    currentModerateDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
                     //makes it invisible so nothing can happen
                     options.setVisible(false);
                 }

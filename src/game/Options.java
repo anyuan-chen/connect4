@@ -11,6 +11,7 @@ public class Options {
     static String player2CurrentColor = "RED.png";
     static int currentDifficulty = 2;
     static int currentModerateDifficulty = 4;
+    public static int timerLength = 15;
     JFrame options = new JFrame();
     public Options(){
         //label selectors
@@ -47,6 +48,9 @@ public class Options {
                 ai2Difficulty.setSelectedIndex(i);
             }
         }
+
+        JTextField timerEntry = new JTextField(String.valueOf(timerLength), 5);
+
         //following 3 blocks of code are adding the label and combobox for a respective to topic to a panel
         JPanel color1Panel = new JPanel();
         color1Panel.add(colorLabel);
@@ -61,8 +65,12 @@ public class Options {
         difficultyPanel.add(aiDifficulty);
 
         JPanel difficulty2 = new JPanel();
-        difficultyPanel.add(difficultyLabelMOderate);
-        difficultyPanel.add(ai2Difficulty);
+        difficulty2.add(difficultyLabelMOderate);
+        difficulty2.add(ai2Difficulty);
+
+        JPanel timerLengthPanel = new JPanel();
+        timerLengthPanel.add(new JLabel("Please select the length of turn duration"));
+        timerLengthPanel.add(timerEntry);
 
         //creation of exit button which will also put into effect the changes made using the combobox
         JButton saveAndExit = new JButton("Save and Exit");
@@ -73,22 +81,30 @@ public class Options {
                         JOptionPane.showMessageDialog(new JFrame(), "Player 1 and 2 cannot have same color");
                         return;
                     }
+                    try {
+                        timerLength = Integer.parseInt(timerEntry.getText());
+                    } catch (Exception e){
+                        JOptionPane.showMessageDialog(new JFrame(), "Invalid amount of time");
+                        return;
+                    }
                     //saves the current selected values into the static variables declared at the top of this page
                     player1CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
                     player2CurrentColor = String.valueOf(player2Color.getSelectedItem()) + ".png";
                     currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
-                    currentModerateDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
+                    currentModerateDifficulty = Integer.parseInt(String.valueOf(ai2Difficulty.getSelectedItem())) + 1;
                     //makes it invisible so nothing can happen
                     options.setVisible(false);
                 }
         );
         //sets layout and adds all of the different panels needed
-        options.setLayout(new GridLayout(4,1));
+        options.setLayout(new GridLayout(6,1));
         options.add(color1Panel);
         options.add(color2Panel);
         options.add(difficultyPanel);
+        options.add(difficulty2);
+        options.add(timerLengthPanel);
         options.add(saveAndExit);
-        options.setSize(350,350);
+        options.setSize(350,550);
         options.setVisible(true);
     }
 }

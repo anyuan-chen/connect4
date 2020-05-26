@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Gamemode {
 
@@ -155,7 +157,7 @@ public class Gamemode {
                         //displays status message on who's turn it is
                         //if the turn is odd, it is player 2's turn
                         if (turn % 2 == 1) {
-                            frame.setTitle("Player 2 Turn");
+                            //frame.setTitle("Player 2 Turn");
                         } //otherwise it is player 1 turn
                         else {
                             frame.setTitle("Player 1 Turn");
@@ -282,6 +284,7 @@ public class Gamemode {
             return 0;
         }
     }
+    int timerLeft = Options.timerLength;
 
     /**
      * Sets up the menu bar for the user
@@ -376,6 +379,8 @@ public class Gamemode {
         game.add(loadGame);
         gameMenu.add(game);
         gameMenu.add(exit);
+        java.util.Timer timer = new Timer();
+
         frame.setJMenuBar(gameMenu);
     }
 

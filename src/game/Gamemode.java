@@ -23,7 +23,7 @@ public class Gamemode {
     //array of JLabels where the connect 4 tiles are placed
     protected JLabel[][] slots;
     //array correstpinding to slots with an unfilled value being -1, player 1 filled being 1, and player 2 filled being 0
-    protected int[][] occupied;
+    public int[][] occupied;
     //buttons to place tiles at the top
     protected JButton[] buttons;
     //the panel that hosts the entire grid

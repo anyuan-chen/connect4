@@ -6,14 +6,10 @@
 package game;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,17 +24,19 @@ public class MainMenu extends javax.swing.JFrame {
     static boolean statsLoaded = false;
 
     public void setUpMenu() throws IOException {
+        //loads statistics from file if they have not been already, this will only take place in the first initialization of the main menu from the main method
         if (!statsLoaded) {
             Statistics.importStats();
             statsLoaded = !statsLoaded;
         }
         frame.getContentPane().removeAll();
-
+        //create a new menu bar
         JMenuBar menuBar = new JMenuBar(){
 //                public void paintComponent(Graphics g){
 //                    g.drawImage(Toolkit.getDefaultToolkit().getImage("./src/Assets/menuBackground.png"),0,0,this);
 //                }
         };
+        //creation of various menuitems to put into the menu Bar
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem instructions = new JMenuItem("Instructions");
@@ -67,11 +65,13 @@ public class MainMenu extends javax.swing.JFrame {
                     }
                 }
         );
+        //action listener to open the options jframe whenever the options button is pressed
         options.addActionListener(
                 actionEvent -> {
                     Options s = new Options();
                 }
         );
+        //action listener to open the statistics jfram whenever the statistics button is pressed
         statistics.addActionListener(
                 actionEvent -> {
                     try {
@@ -113,7 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
         JButton easyAI = new JButton("Singleplayer - Easy");
         easyAI.addActionListener(actionEvent -> {
             try {
-                Options.overallDifficulty = Options.currentDifficulty;
+                Options.overallDifficulty = Options.currentEasyDifficulty;
                 RandomAI rai = new RandomAI(frame);
             } catch (IOException e) {
                 e.printStackTrace();

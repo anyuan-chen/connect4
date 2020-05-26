@@ -4,11 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Options {
+    //the overall difficulty variable will always store either the currentDifficulty or currentModerateDifficulty variables once a game has been entered
+    //the minimax difficulty is based on the overall difficulty variable
+    //when the easy mode is pressed, the overall difficulty variable changes into the currentEasyDifficulty variable while if the hard mode is pressed it will change into the currentModerate difficulty
     public static int overallDifficulty;
+    //current color of pieces - this will correspond to a file in the assets folder
     static String player1CurrentColor = "BLACK.png";
     static String player2CurrentColor = "RED.png";
-    static int currentDifficulty = 2;
+    //default minimax depth for the easy mode and hard mode
+    static int currentEasyDifficulty = 2;
     static int currentModerateDifficulty = 4;
+    //default maximum move amount allowed
     public static int moveAmount = 42;
     JFrame options = new JFrame();
     public Options(){
@@ -16,40 +22,54 @@ public class Options {
         JLabel colorLabel = new JLabel("Please select the color for player 1:");
         JLabel color2Label = new JLabel("Please select the color for player 2/AI");
         JLabel difficultyLabel = new JLabel("Pl" + "ease select the difficulty for the easy mode:");
-        JLabel difficultyLabelMOderate = new JLabel("Pl" + "ease select the difficulty for the moderate mode:");
+        JLabel difficultyLabelModerate = new JLabel("Pl" + "ease select the difficulty for the moderate mode:");
 
         //options available in the combo box for colors and difficulty (depth of minmax ai)
         String[] colors = {"BLACK", "ORANGE", "GREEN", "YELLOW", "RED"};
         Integer [] difficulty = {1,2,3,4,5};
-        //creation of new comboboxes for the user to select
+
+        /**
+         * Reason a method was not used for the repetitive code below is because they are of different data types
+         * and all have specific checks in them. (eg. one must add .png to the color name to access the file
+         */
+
+        //creation of new combobox for the user to select
         JComboBox<String> player1Color = new JComboBox<String>(colors);
+        //selects the current value that the user has enabled for them
         for (int i = 0; i < colors.length; i++){
             if ((colors[i]+".png").equals(player1CurrentColor)){
                 player1Color.setSelectedIndex(i);
             }
         }
+        //creation of new combobox for user
         JComboBox<String> player2Color = new JComboBox<String>(colors);
+        //selects current value
         for (int i = 0; i < colors.length; i++){
             if ((colors[i]+".png").equals(player2CurrentColor)){
                 player2Color.setSelectedIndex(i);
             }
         }
+        //creation of new combobox for user
         JComboBox<Integer> aiDifficulty = new JComboBox<Integer>(difficulty);
+        //selects current value
         for (int i = 0; i < difficulty.length; i++){
-            if (difficulty[i] == currentDifficulty){
+            if (difficulty[i] == currentEasyDifficulty){
                 aiDifficulty.setSelectedIndex(i);
             }
         }
+        //creation of new combobox for user
         JComboBox<Integer> ai2Difficulty = new JComboBox<Integer>(difficulty);
+        //selects current value
         for (int i = 0; i < difficulty.length; i++){
             if (difficulty[i] == currentModerateDifficulty){
                 ai2Difficulty.setSelectedIndex(i);
             }
         }
 
+        //creation of textField where they can enter the maximum move count
         JTextField moveEntry = new JTextField(String.valueOf(moveAmount), 5);
 
-        //following 3 blocks of code are adding the label and combobox for a respective to topic to a panel
+        //following 5 blocks of code are adding the label and combobox for a respective to topic to a panel
         JPanel color1Panel = new JPanel();
         colorLabel.setForeground(new Color(228,255,255));
         color1Panel.add(colorLabel);
@@ -71,8 +91,8 @@ public class Options {
 
 
         JPanel difficulty2 = new JPanel();
-        difficultyLabelMOderate.setForeground(new Color(228,255,255));
-        difficulty2.add(difficultyLabelMOderate);
+        difficultyLabelModerate.setForeground(new Color(228,255,255));
+        difficulty2.add(difficultyLabelModerate);
         difficulty2.add(ai2Difficulty);
         difficulty2.setBackground(new Color(0,0,0,0));
 
@@ -108,7 +128,7 @@ public class Options {
                     //saves the current selected values into the static variables declared at the top of this page
                     player1CurrentColor = player1Color.getSelectedItem() + ".png";
                     player2CurrentColor = player2Color.getSelectedItem() + ".png";
-                    currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
+                    currentEasyDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
                     currentModerateDifficulty = Integer.parseInt(String.valueOf(ai2Difficulty.getSelectedItem())) + 1;
                     //makes it invisible so nothing can happen
                     options.setVisible(false);

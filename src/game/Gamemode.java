@@ -23,7 +23,7 @@ public class Gamemode {
     //array of JLabels where the connect 4 tiles are placed
     protected JLabel[][] slots;
     //array correstpinding to slots with an unfilled value being -1, player 1 filled being 1, and player 2 filled being 0
-    protected int[][] filled;
+    protected int[][] occupied;
     //buttons to place tiles at the top
     protected JButton[] buttons;
     //the panel that hosts the entire grid
@@ -32,7 +32,6 @@ public class Gamemode {
     protected int turn = 1;
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
-
     Color col = new Color(4, 57, 136);
     JFrame frame;
 
@@ -41,13 +40,13 @@ public class Gamemode {
      * @throws IOException - deals with fileIO
      */
     public Gamemode(JFrame frame) throws IOException {
-        this.frame = frame;
-        frame.setLayout(new BorderLayout());
-        frame.getContentPane().removeAll();
-        frame.setTitle("Player 1 Turn");
-        setUpBoard();
-        setUpMenuBar();
-        frame.revalidate();
+        this.frame = frame; //assigns the frame from main menu to Gamemode
+        frame.setLayout(new BorderLayout()); //border layout, as it is the layout that best deals with the grid of pieces
+        frame.getContentPane().removeAll(); //removes all elements from the main menu
+        frame.setTitle("Player 1 Turn"); //the game starts with player 1
+        setUpBoard(); //calls method to set up the board
+        setUpMenuBar(); //calls method to put up a menu bar
+        frame.revalidate(); //revalidates the frame for a refresh and the changes to show
         frame.repaint();
     }
 
@@ -56,20 +55,21 @@ public class Gamemode {
      * @param save - save file to load
      */
     public Gamemode(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        //this is an identical piece of code as the other gamecode constructor except for the fact that it loads a save state in another file
         this.frame = frame;
         frame.setLayout(new BorderLayout());
         frame.getContentPane().removeAll();
         frame.setTitle("Player 1 Turn");
-        setUpLoadedBoard(save);
+        setUpLoadedBoard(save); //setUpLoadedBoard instead of calling setUpBoard to deal with the save state
         setUpMenuBar();
         frame.revalidate();
         frame.repaint();
     }
 
-    private void setUpLoadedBoard(File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public void setUpLoadedBoard(File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
-        filled = new int[ROWSIZE][COLSIZE];
+        occupied = new int[ROWSIZE][COLSIZE];
         buttons = new JButton[ROWSIZE];
         //creates grid JPanel with appropriate sectioning for the JLabels
         grid = new JPanel(new GridLayout(ROWSIZE, COLSIZE + 1)) {
@@ -100,18 +100,23 @@ public class Gamemode {
                 return new Dimension(smaller, smaller);
             }
         };
+        //creates a new scanner with the with the save file as a parameter so that it can be read
         Scanner fileReader = new Scanner(save);
+        //the first line on the save file is the current turn number
         int turnNumber = Integer.parseInt(fileReader.nextLine());
+        //sets the title based on the turn number; the default is "player 1 turn" so it will change only if it is player 2's turn
         if (turnNumber % 2 == 0) {
             frame.setTitle("Player 2 Turn");
         }
+        //calls the setup buttons method before any pieces are added to make sure that the buttons are at the top of the board
         setUpButtons();
         //the save file will have a default of -1 as the turn number if nothing was saved into it
         if (turnNumber == -1) {
             JOptionPane.showMessageDialog(new JFrame(), "No save file exists, a new game will be created instead",
                     "Error", JOptionPane.INFORMATION_MESSAGE);
             MainMenu mm = new MainMenu(frame);
-        } else {
+        }
+        else {
             //for every single column represented in the save file
             for (int i = 0; i < COLSIZE; i++) {
                 //read and split values into a string array
@@ -120,27 +125,28 @@ public class Gamemode {
                 for (int j = 0; j < ROWSIZE; j++) {
                     //fill it with the appropriate info
                     slots[j][i] = new JLabel();
-                    filled[j][i] = Integer.parseInt(curCol[j]);
+                    occupied[j][i] = Integer.parseInt(curCol[j]);
                     //if it is player 1, fill with player 1 colors
-                    if (filled[j][i] == 1) {
+                    if (occupied[j][i] == 1) {
                         slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     } //if it is player 2, fill with player 2 colors
-                    else if (filled[j][i] == 0) {
+                    else if (occupied[j][i] == 0) {
                         slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     }
-                    //add appropriate border
+                    //add appropriate icon to create the illusion of a connect 4 board
                     slots[j][i].setIcon(new ImageIcon("./src/Assets/board.png"));
+                    //add the finished JLabel to the main grid
                     grid.add(slots[j][i]);
                 }
             }
         }
-
+        //add the completed board to the main frame
         frame.add(grid);
     }
 
@@ -168,9 +174,9 @@ public class Gamemode {
                         //looks for the lowest availiabe position in the column to simulate gravity
                         for (int c = COLSIZE - 1; c >= 0; c--) {
                             //if there is a nonfilled spot
-                            if (filled[finalI][c] == -1) {
+                            if (occupied[finalI][c] == -1) {
                                 //mark it as filled
-                                filled[finalI][c] = turn % 2;
+                                occupied[finalI][c] = turn % 2;
                                 //if player is player 1
                                 if (turn % 2 == 1) {
                                     slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
@@ -287,7 +293,7 @@ public class Gamemode {
         //try catch in case the recursive function goes out of bounds
         try {
             //if the next tile in the given direction is the same as the starting one
-            if (filled[x + direction[0]][y + direction[1]] == value) {
+            if (occupied[x + direction[0]][y + direction[1]] == value) {
                 //keep going until there is a piece that is not equal to value
                 return 1 + checkWinUtility(x + direction[0], y + direction[1], value, amountInARow + 1, direction);
             } //a different tile from the start means no connect 4 has been achieved
@@ -299,7 +305,6 @@ public class Gamemode {
             return 0;
         }
     }
-    int timerLeft = Options.moveAmount;
 
     /**
      * Sets up the menu bar for the user
@@ -319,15 +324,8 @@ public class Gamemode {
             try {
                 //returns to main menu
                 MainMenu mm = new MainMenu(frame);
-            } catch (IOException | FontFormatException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | FontFormatException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+                //since main menu has many many different exceptions that can occur, the try catch needs to exist
                 e.printStackTrace();
             }
         });
@@ -364,7 +362,9 @@ public class Gamemode {
         });
         JMenuItem saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(actionEvent -> {
+            //needs to be of type object or else the JOptionPane will not take it as a parpameter
             Object[] possiblities = {"Yes", "No"};
+            //creates a new dialog frame
             JFrame dialogFrame = new JFrame();
             //creates a new dialog box with the options yes and no, returns the string that was chosen
             String optionChosen = (String) JOptionPane.showInputDialog(
@@ -388,7 +388,9 @@ public class Gamemode {
                 dialogFrame.setVisible(false);
             }
         });
+        //menu option to save the load a previously saved game state
         JMenuItem loadGame = new JMenuItem("Load Game");
+        //calls the constructor of the TwoPlayer class to load a game with that save file
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
                 TwoPlayer gm = new TwoPlayer(frame, new File("./src/Assets/SAVE.txt"));
@@ -404,14 +406,13 @@ public class Gamemode {
                 e.printStackTrace();
             }
         });
+        //addingeverything to the jframe and panel
         exit.add(toMainMenu);
         exit.add(exitApplication);
         game.add(saveGame);
         game.add(loadGame);
         gameMenu.add(game);
         gameMenu.add(exit);
-        java.util.Timer timer = new Timer();
-
         frame.setJMenuBar(gameMenu);
     }
 
@@ -419,12 +420,15 @@ public class Gamemode {
      * loads the current game on the board into the save file
      * @throws FileNotFoundException - in case the user deletes the file from the folder
      */
-    private void saveGame() throws FileNotFoundException {
+    public void saveGame() throws FileNotFoundException {
+        //opens a printwriter (write to file)
         PrintWriter wtf = new PrintWriter(new File("./src/Assets/SAVE.txt"));
+        // print the turn number first
         wtf.println(turn);
+        //then, for every single piece on the board, print it into the save file
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                wtf.print(filled[j][i]);
+                wtf.print(occupied[j][i]);
                 wtf.print(" ");
             }
             wtf.println();
@@ -469,10 +473,10 @@ public class Gamemode {
         };
         //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
-        filled = new int[ROWSIZE][COLSIZE];
+        occupied = new int[ROWSIZE][COLSIZE];
         buttons = new JButton[ROWSIZE];
         //fills with -1 to signal that nothing has any tiles in it for now
-        for (int[] ints : filled) {
+        for (int[] ints : occupied) {
             Arrays.fill(ints, -1);
         }
         //adds all of the buttons to the grid

@@ -91,6 +91,8 @@ public class RandomAI extends Gamemode {
                         }
                         try {
                             aiMove();
+                        } catch (IndexOutOfBoundsException e) {
+                            e.printStackTrace();
                         } catch (IOException | InterruptedException | FontFormatException e) {
                             e.printStackTrace();
                         }

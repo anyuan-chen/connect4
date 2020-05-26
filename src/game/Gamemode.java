@@ -211,18 +211,13 @@ public class Gamemode {
      * @throws IOException - involves a bit of FileIO
      */
     public void checkWin(int x, int y, int value) throws IOException, FontFormatException {
-        //if all of the tiles have been filled
-        if (turn == 42) {
-            //return to the main menu because it is a tie
-            JOptionPane.showMessageDialog(new JFrame(), "A tie has occurred, the game will now reset. The game will now return to the main menu",
-                    "information", JOptionPane.INFORMATION_MESSAGE);
-            //returns to the main menu
-            MainMenu mm = new MainMenu(frame);
-        }
+
         //for all the different directions
-        for (int[] direction : directions) {
+        for (int i = 0; i < directions.length / 2; i++) {
+
             //check if the current tile placed will cause a connect 4 to happen
-            if (checkWinUtility(x, y, value, 1, direction)) {
+            if (checkWinUtility(x, y, value, 1, directions[i]) + checkWinUtility(x, y, value, 1, directions[i + 4]) >= 3) {
+
                 //if this is the player 2 that placed the piece
                 if (turn % 2 == 0) {
                     //show the dialog box and return to main menu
@@ -248,6 +243,15 @@ public class Gamemode {
                 MainMenu mm = new MainMenu(frame);
             }
         }
+        //if all of the tiles have been filled
+
+        if (turn == 42) {
+            //return to the main menu because it is a tie
+            JOptionPane.showMessageDialog(new JFrame(), "A tie has occurred, the game will now reset. The game will now return to the main menu",
+                    "information", JOptionPane.INFORMATION_MESSAGE);
+            //returns to the main menu
+            MainMenu mm = new MainMenu(frame);
+    }
     }
 
     /**
@@ -259,26 +263,23 @@ public class Gamemode {
      * row already
      * @param direction - up down left right or any of the four diagonals, this
      * is represented as an x-y coordinate (eg. up would be (0,1))
-     * @return - true if there exists 4 in a row
+     * @return - number of consecutive pieces in a direction
      */
-    public boolean checkWinUtility(int x, int y, int value, int amountInARow, int[] direction) {
-        //if the amount is 4 in a row, then connect 4 is complete
-        if (amountInARow == 4) {
-            return true;
-        }
+    public int checkWinUtility(int x, int y, int value, int amountInARow, int[] direction) {
+
         //try catch in case the recursive function goes out of bounds
         try {
             //if the next tile in the given direction is the same as the starting one
             if (filled[x + direction[0]][y + direction[1]] == value) {
-                //keep going until there is 4 in a row
-                return checkWinUtility(x + direction[0], y + direction[1], value, amountInARow + 1, direction);
+                //keep going until there is a piece that is not equal to value
+                return 1 + checkWinUtility(x + direction[0], y + direction[1], value, amountInARow + 1, direction);
             } //a different tile from the start means no connect 4 has been achieved
             else {
-                return false;
+                return 0;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             //going out of the array also means that connect 4 has not been reached
-            return false;
+            return 0;
         }
     }
 
@@ -451,3 +452,4 @@ public class Gamemode {
         frame.add(grid);
     }
 }
+

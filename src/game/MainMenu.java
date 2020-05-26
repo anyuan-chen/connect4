@@ -5,7 +5,11 @@
  */
 package game;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
@@ -30,7 +34,11 @@ public class MainMenu extends javax.swing.JFrame {
         }
         frame.getContentPane().removeAll();
 
-        JMenuBar menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar(){
+//                public void paintComponent(Graphics g){
+//                    g.drawImage(Toolkit.getDefaultToolkit().getImage("./src/Assets/menuBackground.png"),0,0,this);
+//                }
+        };
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem instructions = new JMenuItem("Instructions");
@@ -79,16 +87,17 @@ public class MainMenu extends javax.swing.JFrame {
         settings.add(options);
         settings.add(exit);
         menuBar.add(settings);
-
         frame.setJMenuBar(menuBar);
         frame.revalidate();
         frame.repaint();
     }
 
     public void setUpButtons() throws IOException {
-
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
-
+        GridLayout buttonPanelLayout = new GridLayout(3, 1);
+        buttonPanelLayout.setVgap(40);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanel.setBackground(new Color(0,0,0, 0));
         //buttons to enter each specific mode
         JButton twoPlayer = new JButton("Two Player");
         //if the two player mode is pressed, we are taken to the two player game mode
@@ -128,9 +137,8 @@ public class MainMenu extends javax.swing.JFrame {
         frame.add(buttonPanel);
     }
 
-    public MainMenu(JFrame frame) throws IOException, FontFormatException {
+    public MainMenu(JFrame frame) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         setUpMenu();
-
         frame.setContentPane(new JLabel(new ImageIcon("./src/Assets/background.gif")));
         frame.setLayout(new FlowLayout());
         //title message
@@ -139,16 +147,17 @@ public class MainMenu extends javax.swing.JFrame {
 
         JLabel blank = new JLabel();
         blank.setIcon(new ImageIcon("./src/Assets/blank.png"));
-
         frame.add(titleLabel);
         setUpButtons();
-
         setUpVisuals();
 
         //sets size of the application
         frame.setSize(589, 599);
         frame.setSize(590, 600);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
+        frame.setIconImage(icon.getImage());
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }
@@ -161,8 +170,12 @@ public class MainMenu extends javax.swing.JFrame {
 //        UIManager.put("Button.font", "Arial");
     }
 
-    public static void main(String[] args) throws IOException, FontFormatException {
-        //creates instance of the application
+    public static void main(String[] args) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        try {
+            UIManager.setLookAndFeel( new FlatDarculaLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }        //creates instance of the application
         MainMenu m = new MainMenu(frame);
     }
 }

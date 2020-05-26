@@ -2,8 +2,6 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Options {
     public static int overallDifficulty;
@@ -11,7 +9,7 @@ public class Options {
     static String player2CurrentColor = "RED.png";
     static int currentDifficulty = 2;
     static int currentModerateDifficulty = 4;
-    public static int timerLength = 15;
+    public static int moveAmount = 42;
     JFrame options = new JFrame();
     public Options(){
         //label selectors
@@ -49,28 +47,42 @@ public class Options {
             }
         }
 
-        JTextField timerEntry = new JTextField(String.valueOf(timerLength), 5);
+        JTextField moveEntry = new JTextField(String.valueOf(moveAmount), 5);
 
         //following 3 blocks of code are adding the label and combobox for a respective to topic to a panel
         JPanel color1Panel = new JPanel();
+        colorLabel.setForeground(new Color(228,255,255));
         color1Panel.add(colorLabel);
         color1Panel.add(player1Color);
+        color1Panel.setBackground(new Color(0,0,0,0));
 
         JPanel color2Panel = new JPanel();
         color2Panel.add(color2Label);
+        color2Label.setForeground(new Color(228,255,255));
         color2Panel.add(player2Color);
+        color2Panel.setBackground(new Color(0,0,0,0));
+
 
         JPanel difficultyPanel = new JPanel();
+        difficultyLabel.setForeground(new Color(228,255,255));
         difficultyPanel.add(difficultyLabel);
         difficultyPanel.add(aiDifficulty);
+        difficultyPanel.setBackground(new Color(0,0,0,0));
+
 
         JPanel difficulty2 = new JPanel();
+        difficultyLabelMOderate.setForeground(new Color(228,255,255));
         difficulty2.add(difficultyLabelMOderate);
         difficulty2.add(ai2Difficulty);
+        difficulty2.setBackground(new Color(0,0,0,0));
 
-        JPanel timerLengthPanel = new JPanel();
-        timerLengthPanel.add(new JLabel("Please select the length of turn duration"));
-        timerLengthPanel.add(timerEntry);
+
+        JPanel maxNumberMoves = new JPanel();
+        JLabel maxMovesLabel = new JLabel("Please select the max number of turns");
+        maxMovesLabel.setForeground(new Color(228,255,255));
+        maxNumberMoves.setBackground(new Color(0,0,0,0));
+        maxNumberMoves.add(maxMovesLabel);
+        maxNumberMoves.add(moveEntry);
 
         //creation of exit button which will also put into effect the changes made using the combobox
         JButton saveAndExit = new JButton("Save and Exit");
@@ -82,9 +94,15 @@ public class Options {
                         return;
                     }
                     try {
-                        timerLength = Integer.parseInt(timerEntry.getText());
+                        if (Integer.parseInt(moveEntry.getText()) < 43){
+                            moveAmount = Integer.parseInt(moveEntry.getText());
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(new JFrame(), "There is a maximum of 42 moves in connect 4");
+                            return;
+                        }
                     } catch (Exception e){
-                        JOptionPane.showMessageDialog(new JFrame(), "Invalid amount of time");
+                        JOptionPane.showMessageDialog(new JFrame(), "Invalid amount of moves");
                         return;
                     }
                     //saves the current selected values into the static variables declared at the top of this page
@@ -97,14 +115,18 @@ public class Options {
                 }
         );
         //sets layout and adds all of the different panels needed
+        options.getContentPane().setBackground(new Color(22,31,59));
         options.setLayout(new GridLayout(6,1));
         options.add(color1Panel);
         options.add(color2Panel);
         options.add(difficultyPanel);
         options.add(difficulty2);
-        options.add(timerLengthPanel);
+        options.add(maxNumberMoves);
         options.add(saveAndExit);
         options.setSize(350,550);
+        ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
+        options.setIconImage(icon.getImage());
+        options.setLocationRelativeTo(null);
         options.setVisible(true);
     }
 }

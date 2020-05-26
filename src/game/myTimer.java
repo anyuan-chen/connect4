@@ -1,12 +1,11 @@
 package game;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.Timer;
 
 public class myTimer {
     public myTimer(){
-        int timerLeft = Options.timerLength;
+        int timerLeft = Options.moveAmount;
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override

@@ -23,8 +23,11 @@ public class Statistics {
         JButton exit = new JButton("Exit");
         exit.addActionListener(actionEvent -> jf.setVisible(false));
         exit.setPreferredSize(new Dimension(30,10));
+        ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
+        jf.setIconImage(icon.getImage());
         jf.add(exit);
         jf.setSize(400,300);
+        jf.setLocationRelativeTo(null);
         jf.setVisible(true);
     }
 

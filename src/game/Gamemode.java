@@ -6,10 +6,8 @@
 package game;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Gamemode {
 
@@ -58,7 +55,7 @@ public class Gamemode {
      * @param frame - to display the gameboard
      * @param save - save file to load
      */
-    public Gamemode(JFrame frame, File save) throws IOException, FontFormatException {
+    public Gamemode(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         this.frame = frame;
         frame.setLayout(new BorderLayout());
         frame.getContentPane().removeAll();
@@ -69,7 +66,7 @@ public class Gamemode {
         frame.repaint();
     }
 
-    private void setUpLoadedBoard(File save) throws IOException, FontFormatException {
+    private void setUpLoadedBoard(File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
         filled = new int[ROWSIZE][COLSIZE];
@@ -138,7 +135,7 @@ public class Gamemode {
                         turn++;
                     }
                     //add appropriate border
-                    slots[j][i].setBorder(new LineBorder(Color.DARK_GRAY));
+                    slots[j][i].setIcon(new ImageIcon("./src/Assets/board.png"));
                     grid.add(slots[j][i]);
                 }
             }
@@ -176,10 +173,14 @@ public class Gamemode {
                                 filled[finalI][c] = turn % 2;
                                 //if player is player 1
                                 if (turn % 2 == 1) {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                                    frame.setTitle("Player 2 Turn");
+
                                 } //if player is player 2
                                 else {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                                    frame.setTitle("Player 1 Turn");
+
                                 }
                                 //centers the icon so that nothing bad can happen to it
                                 slots[finalI][c].setHorizontalAlignment(JLabel.CENTER);
@@ -189,6 +190,14 @@ public class Gamemode {
                                 try {
                                     checkWin(finalI, c, turn % 2);
                                 } catch (IOException | FontFormatException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InstantiationException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedLookAndFeelException e) {
+                                    e.printStackTrace();
+                                } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn
@@ -218,7 +227,7 @@ public class Gamemode {
      * will be 1 while it will be 0 for player 2
      * @throws IOException - involves a bit of FileIO
      */
-    public void checkWin(int x, int y, int value) throws IOException, FontFormatException {
+    public void checkWin(int x, int y, int value) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
 
         //for all the different directions
         for (int i = 0; i < directions.length / 2; i++) {
@@ -253,7 +262,7 @@ public class Gamemode {
         }
         //if all of the tiles have been filled
 
-        if (turn == 42) {
+        if (turn == Options.moveAmount) {
             //return to the main menu because it is a tie
             JOptionPane.showMessageDialog(new JFrame(), "A tie has occurred, the game will now reset. The game will now return to the main menu",
                     "information", JOptionPane.INFORMATION_MESSAGE);
@@ -290,7 +299,7 @@ public class Gamemode {
             return 0;
         }
     }
-    int timerLeft = Options.timerLength;
+    int timerLeft = Options.moveAmount;
 
     /**
      * Sets up the menu bar for the user
@@ -311,6 +320,14 @@ public class Gamemode {
                 //returns to main menu
                 MainMenu mm = new MainMenu(frame);
             } catch (IOException | FontFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         });
@@ -376,6 +393,14 @@ public class Gamemode {
             try {
                 TwoPlayer gm = new TwoPlayer(frame, new File("./src/Assets/SAVE.txt"));
             } catch (IOException | FontFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         });

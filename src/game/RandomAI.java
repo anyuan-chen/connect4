@@ -19,7 +19,7 @@ public class RandomAI extends Gamemode {
         super(frame);
     }
 
-    public RandomAI(JFrame frame, File save) throws IOException, FontFormatException {
+    public RandomAI(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         super(frame, save);
     }
 
@@ -65,6 +65,14 @@ public class RandomAI extends Gamemode {
                                 try {
                                     checkWin(finalI, c, turn % 2);
                                 } catch (IOException | FontFormatException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InstantiationException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedLookAndFeelException e) {
+                                    e.printStackTrace();
+                                } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn

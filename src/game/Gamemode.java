@@ -415,6 +415,10 @@ public class Gamemode {
         frame.setJMenuBar(gameMenu);
     }
 
+    /**
+     * loads the current game on the board into the save file
+     * @throws FileNotFoundException - in case the user deletes the file from the folder
+     */
     private void saveGame() throws FileNotFoundException {
         PrintWriter wtf = new PrintWriter(new File("./src/Assets/SAVE.txt"));
         wtf.println(turn);

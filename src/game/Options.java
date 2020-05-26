@@ -106,8 +106,8 @@ public class Options {
                         return;
                     }
                     //saves the current selected values into the static variables declared at the top of this page
-                    player1CurrentColor = String.valueOf(player1Color.getSelectedItem()) + ".png";
-                    player2CurrentColor = String.valueOf(player2Color.getSelectedItem()) + ".png";
+                    player1CurrentColor = player1Color.getSelectedItem() + ".png";
+                    player2CurrentColor = player2Color.getSelectedItem() + ".png";
                     currentDifficulty = Integer.parseInt(String.valueOf(aiDifficulty.getSelectedItem())) + 1;
                     currentModerateDifficulty = Integer.parseInt(String.valueOf(ai2Difficulty.getSelectedItem())) + 1;
                     //makes it invisible so nothing can happen

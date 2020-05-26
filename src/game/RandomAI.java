@@ -120,9 +120,9 @@ public class RandomAI extends Gamemode {
              * System.out.println("diff " + Options.currentDifficulty);
              *
              */
-            int high = ai.move(Options.currentDifficulty, true, newArray);
+            int high = MinimaxAI.move(Options.currentDifficulty, true, newArray);
             //System.out.println(high);
-            int choose = ai.makeMove(high, newArray);
+            int choose = MinimaxAI.makeMove(high, newArray);
 
             frame.repaint();
             frame.revalidate();

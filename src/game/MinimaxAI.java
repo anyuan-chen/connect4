@@ -57,10 +57,12 @@ public class MinimaxAI {
     public static int move(int depth, boolean aiTurn, int[][] board) {
 
         //System.out.println("start of move method, depth " + depth); //->DEBUG
-        if (depth == 0) { //Terminating condition
+        if (depth == 0 || isOver(board)) { //Terminating condition
             //System.out.println(aiTurn); ->DEBUG
-
             int score = getScore(board, player2, player1); //Calls getScore method to return a static evaluation of the boardstate
+            if (depth == initialDepth - 1) { //When the second to last moves are calculated, store the scores in the arraylist
+                scores.add(score);
+            }
             //System.out.println("score: " + score); //->DEBUG
             return score; //Return that score
         }
@@ -123,6 +125,7 @@ public class MinimaxAI {
             }
         } //This ensures that all score arrayLists have 7 elements and the proper column is returned
 
+        //System.out.println("target: " + score); //->DEBUG
         //System.out.println("score: " + scores); //->DEBUG
         int index = scores.indexOf(score); //Finds the index of the score
 
@@ -161,11 +164,13 @@ public class MinimaxAI {
 
         newBoard[ypos][col] = value; //Updates value
 
-        /**
-         * System.out.println("Updated Board: "); for (int i = 0; i < 6; i++) {
-         * System.out.println(Arrays.toString(newBoard[i])); }
-         *
-         */ //->DEBUG
+        /*
+        System.out.println("Updated Board: ");
+        for (int i = 0; i < 6; i++) {
+            System.out.println(Arrays.toString(newBoard[i]));
+        }
+         */
+        //->DEBUG
         return newBoard;
 
     }
@@ -282,14 +287,21 @@ public class MinimaxAI {
         return -1;
     }
 
+    
+    /**
+     * 
+     * @param board: The board state
+     * @return true if any player has won the game
+     */
     public static boolean isOver(int[][] board) {
         for (int i = board.length - 1; i >= 0; i--) {
             for (int j = 0; j < board[0].length; j++) {
 
                 for (int k = 0; k < 4; k++) {
-                    if (checkWin(j, i, player1, k, board) + checkWin(j, i, player1, k + 4, board) == 4
-                            || checkWin(j, i, player1, k, board) + checkWin(j, i, player1, k + 4, board) == 4) {
-                        System.out.println("over");
+
+                    if ((checkWin(j, i, player1, k, board) + checkWin(j, i, player1, k + 4, board) >= 3 && (board[i][j] == player1)) //Checking lines of 4 or more
+                            || (checkWin(j, i, player2, k, board) + checkWin(j, i, player2, k + 4, board) >= 3 && (board[i][j] == player2))) {
+                        //System.out.println("over"); //->DEBUG
                         return true;
                     }
                 }
@@ -315,18 +327,20 @@ public class MinimaxAI {
         } catch (ArrayIndexOutOfBoundsException e) { //Catch the array out of bounds exception
             return 0; //If OutOfBounds, return 0 (since there is no piece adjacent)
         }
+
     }
-    /**
-     * public static void main(String[] args) { int[][] preset = {{-1, -1, -1,
-     * -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1,
-     * -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1, -1}, {-1, -1,
-     * 1, -1, -1, -1, -1}};
-     *
-     * System.out.println(initialDepth);
-     * System.out.println(makeMove(move(initialDepth, true, preset), preset));
-     *
-     * }
-     *
+    /*
+    public static void main(String[] args) {
+        int[][] preset = {{-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1},
+        {2, -1, 2, 2, 2, 1, -1}};
+
+        System.out.println(makeMove(move(initialDepth, true, preset), preset));
+
+    }
      */
     //->DEBUG
 }

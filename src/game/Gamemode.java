@@ -35,6 +35,8 @@ public class Gamemode {
     protected int turn = 1;
     final int ROWSIZE = 7;
     final int COLSIZE = 6;
+
+    Color col = new Color(4, 57, 136);
     JFrame frame;
 
     /**
@@ -149,7 +151,11 @@ public class Gamemode {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press
-            buttons[i] = new JButton(String.valueOf(i + 1));
+            buttons[i] = new JButton(new ImageIcon("./src/Assets/arrow.png"));
+            buttons[i].setBackground(col);
+            buttons[i].setOpaque(true);
+            buttons[i].setBorderPainted(false);
+
             //since i use an anonymous functional lambada, i need to duplicate the local variable to use within it
             int finalI = i;
             buttons[i].addActionListener(
@@ -253,7 +259,7 @@ public class Gamemode {
                     "information", JOptionPane.INFORMATION_MESSAGE);
             //returns to the main menu
             MainMenu mm = new MainMenu(frame);
-    }
+        }
     }
 
     /**
@@ -457,4 +463,3 @@ public class Gamemode {
         frame.add(grid);
     }
 }
-

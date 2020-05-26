@@ -1,34 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package game;
+
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class MainMenu {
+public class MainMenu extends javax.swing.JFrame {
+
     //static jframe that will be passed around to all the gui classes
     static JFrame frame = new JFrame();
     //creation of panels to organize the main menu for the frame
-    JPanel title = new JPanel();
+
     JPanel selection = new JPanel();
     static boolean statsLoaded = false;
-    public void setUpMenu () throws IOException {
-        if (!statsLoaded){
+
+    public void setUpMenu() throws IOException {
+        if (!statsLoaded) {
             Statistics.importStats();
             statsLoaded = !statsLoaded;
         }
         frame.getContentPane().removeAll();
+
         JMenuBar menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem instructions = new JMenuItem("Instructions");
         JMenuItem statistics = new JMenuItem("Statistics");
         JMenuItem options = new JMenuItem("Options");
+
         //makes the exit button exit when it is clicked
         exit.addActionListener(
-                actionEvent ->{
+                actionEvent -> {
                     try {
                         Statistics.saveStats();
                     } catch (FileNotFoundException e) {
@@ -68,13 +79,16 @@ public class MainMenu {
         settings.add(options);
         settings.add(exit);
         menuBar.add(settings);
+
         frame.setJMenuBar(menuBar);
         frame.revalidate();
         frame.repaint();
     }
-    public void setUpPanel() throws IOException{
-        //title message
-        JLabel titleLabel = new JLabel("Welcome to Connect 4");
+
+    public void setUpButtons() throws IOException {
+
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+
         //buttons to enter each specific mode
         JButton twoPlayer = new JButton("Two Player");
         //if the two player mode is pressed, we are taken to the two player game mode
@@ -89,7 +103,7 @@ public class MainMenu {
         );
         JButton easyAI = new JButton("Singleplayer - Easy");
         easyAI.addActionListener(actionEvent -> {
-            try{
+            try {
                 Options.overallDifficulty = Options.currentDifficulty;
                 RandomAI rai = new RandomAI(frame);
             } catch (IOException e) {
@@ -98,7 +112,7 @@ public class MainMenu {
         });
         JButton hardAI = new JButton("Singleplayer - Hard");
         hardAI.addActionListener(actionEvent -> {
-            try{
+            try {
                 Options.overallDifficulty = Options.currentModerateDifficulty;
                 RandomAI rai = new RandomAI(frame);
             } catch (IOException e) {
@@ -106,25 +120,37 @@ public class MainMenu {
             }
         });
         //adds title label to the titlebar
-        title.add(titleLabel);
+
         //adds mode selection buttons to the specified jpanel
-        selection.add(twoPlayer);
-        selection.add(easyAI);
-        selection.add(hardAI);
+        buttonPanel.add(twoPlayer);
+        buttonPanel.add(easyAI);
+        buttonPanel.add(hardAI);
+        frame.add(buttonPanel);
     }
+
     public MainMenu(JFrame frame) throws IOException, FontFormatException {
-        frame.getContentPane().setBackground(Color.white);
-        setUpVisuals();
         setUpMenu();
-        setUpPanel();
-        //adds creates layout to have the two panels stacked on top of each other
-        frame.setLayout(new GridLayout(2,1));
-        //adds panels to the frame
-        frame.add(title);
-        frame.add(selection);
+
+        frame.setContentPane(new JLabel(new ImageIcon("./src/Assets/background.gif")));
+        frame.setLayout(new FlowLayout());
+        //title message
+        JLabel titleLabel = new JLabel();
+        titleLabel.setIcon(new ImageIcon("./src/Assets/title.png"));
+
+        JLabel blank = new JLabel();
+        blank.setIcon(new ImageIcon("./src/Assets/blank.png"));
+
+        frame.add(titleLabel);
+        setUpButtons();
+
+        setUpVisuals();
+
         //sets size of the application
-        frame.setSize(590,600);
+        frame.setSize(589, 599);
+        frame.setSize(590, 600);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setVisible(true);
+
     }
 
     private void setUpVisuals() throws IOException, FontFormatException {

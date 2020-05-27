@@ -2,11 +2,10 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Scanner;
 
 public class Statistics {
@@ -16,14 +15,15 @@ public class Statistics {
     static int player2Win = -1;
 
     JFrame jf = new JFrame();
-    public Statistics() throws FileNotFoundException {
+    public Statistics() throws FileNotFoundException, URISyntaxException {
         jf.setLayout(new GridLayout(3,1));
         addPVPStats();
         addPVCStats();
         JButton exit = new JButton("Exit");
         exit.addActionListener(actionEvent -> jf.setVisible(false));
         exit.setPreferredSize(new Dimension(30,10));
-        ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
+        URL rscIcon = ClassLoader.getSystemResource("connect4icon.png");
+        ImageIcon icon = new ImageIcon(String.valueOf(rscIcon.toURI()));
         jf.setIconImage(icon.getImage());
         jf.add(exit);
         jf.setSize(400,300);
@@ -32,8 +32,8 @@ public class Statistics {
     }
 
     public static void importStats() throws FileNotFoundException {
-        File statsFile = new File("./src/Assets/STATISTICS.txt");
-        Scanner statsReader = new Scanner(statsFile);
+        InputStream stream = Statistics.class.getResourceAsStream("/STATISTICS.txt");
+        Scanner statsReader = new Scanner(stream);
         playerWin = Integer.parseInt(statsReader.nextLine());
         System.out.println(playerWin);
         computerWin = Integer.parseInt(statsReader.nextLine());
@@ -41,8 +41,9 @@ public class Statistics {
         player2Win = Integer.parseInt(statsReader.nextLine());
     }
 
-    public static void saveStats() throws FileNotFoundException {
-        File statsFile = new File("./src/Assets/STATISTICS.txt");
+    public static void saveStats() throws FileNotFoundException, URISyntaxException {
+        URL rsct = ClassLoader.getSystemResource("STATISTICS.txt");
+        File statsFile = new File(rsct.toURI());
         PrintWriter statsSave = new PrintWriter(statsFile);
         statsSave.println(playerWin);
         statsSave.println(computerWin);

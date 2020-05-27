@@ -5,13 +5,17 @@
  */
 package game;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Timer;
@@ -54,7 +58,7 @@ public class Gamemode {
      * @param frame - to display the gameboard
      * @param save - save file to load
      */
-    public Gamemode(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public Gamemode(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         //this is an identical piece of code as the other gamecode constructor except for the fact that it loads a save state in another file
         this.frame = frame;
         frame.setLayout(new BorderLayout());
@@ -66,7 +70,7 @@ public class Gamemode {
         frame.repaint();
     }
 
-    public void setUpLoadedBoard(File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public void setUpLoadedBoard(File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         //initializing objects described where instance variables are introduced
         slots = new JLabel[ROWSIZE][COLSIZE];
         occupied = new int[ROWSIZE][COLSIZE];
@@ -128,19 +132,24 @@ public class Gamemode {
                     occupied[j][i] = Integer.parseInt(curCol[j]);
                     //if it is player 1, fill with player 1 colors
                     if (occupied[j][i] == 1) {
-                        slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
-                        slots[j][i].setHorizontalAlignment(JLabel.CENTER);
-                        slots[j][i].setVerticalAlignment(JLabel.CENTER);
+                        BufferedImage p1t = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
+                        slots[j][i].setIcon(new ImageIcon(p1t));
+                        //slots[j][i].setHorizontalAlignment(JLabel.CENTER);
+                        //slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     } //if it is player 2, fill with player 2 colors
                     else if (occupied[j][i] == 0) {
-                        slots[j][i].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                        BufferedImage p2t = ImageIO.read(ClassLoader.getSystemResource(Options.player2CurrentColor));
+                        slots[j][i].setIcon(new ImageIcon(p2t));
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     }
                     //add appropriate icon to create the illusion of a connect 4 board
-                    slots[j][i].setIcon(new ImageIcon("./src/Assets/board.png"));
+                    else{
+                        BufferedImage imgg = ImageIO.read(ClassLoader.getSystemResource("board.png"));
+                        slots[j][i].setIcon(new ImageIcon(imgg));
+                    }
                     //add the finished JLabel to the main grid
                     grid.add(slots[j][i]);
                 }
@@ -150,11 +159,12 @@ public class Gamemode {
         frame.add(grid);
     }
 
-    public void setUpButtons() {
+    public void setUpButtons() throws IOException {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press
-            buttons[i] = new JButton(new ImageIcon("./src/Assets/arrow.png"));
+            BufferedImage imgg = ImageIO.read(ClassLoader.getSystemResource("arrow.png"));
+            buttons[i] = new JButton(new ImageIcon(imgg));
             buttons[i].setBackground(col);
             buttons[i].setOpaque(true);
             buttons[i].setBorderPainted(false);
@@ -179,14 +189,25 @@ public class Gamemode {
                                 occupied[finalI][c] = turn % 2;
                                 //if player is player 1
                                 if (turn % 2 == 1) {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                                    BufferedImage imggg = null;
+                                    try {
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player2CurrentColor));
+                                        slots[finalI][c].setIcon(new ImageIcon(imggg));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     frame.setTitle("Player 2 Turn");
 
                                 } //if player is player 2
                                 else {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                                    BufferedImage imggg = null;
+                                    try {
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
+                                        slots[finalI][c].setIcon(new ImageIcon(imggg));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     frame.setTitle("Player 1 Turn");
-
                                 }
                                 //centers the icon so that nothing bad can happen to it
                                 slots[finalI][c].setHorizontalAlignment(JLabel.CENTER);
@@ -204,6 +225,8 @@ public class Gamemode {
                                 } catch (UnsupportedLookAndFeelException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (URISyntaxException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn
@@ -233,7 +256,7 @@ public class Gamemode {
      * will be 1 while it will be 0 for player 2
      * @throws IOException - involves a bit of FileIO
      */
-    public void checkWin(int x, int y, int value) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public void checkWin(int x, int y, int value) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
 
         //for all the different directions
         for (int i = 0; i < directions.length / 2; i++) {
@@ -324,7 +347,7 @@ public class Gamemode {
             try {
                 //returns to main menu
                 MainMenu mm = new MainMenu(frame);
-            } catch (IOException | FontFormatException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+            } catch (IOException | FontFormatException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | URISyntaxException e) {
                 //since main menu has many many different exceptions that can occur, the try catch needs to exist
                 e.printStackTrace();
             }
@@ -354,7 +377,7 @@ public class Gamemode {
             else if (optionChosen.equals("Yes")) {
                 try {
                     Statistics.saveStats();
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException | URISyntaxException e) {
                     e.printStackTrace();
                 }
                 System.exit(0);
@@ -380,7 +403,7 @@ public class Gamemode {
             if (optionChosen.equals("Yes")) {
                 try {
                     saveGame();
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException | URISyntaxException e) {
                     e.printStackTrace();
                 }
             } //if no was selected, just close the pane
@@ -393,16 +416,9 @@ public class Gamemode {
         //calls the constructor of the TwoPlayer class to load a game with that save file
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
-                TwoPlayer gm = new TwoPlayer(frame, new File("./src/Assets/SAVE.txt"));
-            } catch (IOException | FontFormatException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+                URL rsct = ClassLoader.getSystemResource("SAVE.txt");
+                TwoPlayer gm = new TwoPlayer(frame, new File(rsct.toURI()));
+            } catch (IOException | FontFormatException | IllegalAccessException | UnsupportedLookAndFeelException | URISyntaxException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         });
@@ -420,9 +436,10 @@ public class Gamemode {
      * loads the current game on the board into the save file
      * @throws FileNotFoundException - in case the user deletes the file from the folder
      */
-    public void saveGame() throws FileNotFoundException {
+    public void saveGame() throws FileNotFoundException, URISyntaxException {
         //opens a printwriter (write to file)
-        PrintWriter wtf = new PrintWriter(new File("./src/Assets/SAVE.txt"));
+        URL rsct = ClassLoader.getSystemResource("SAVE.txt");
+        PrintWriter wtf = new PrintWriter(new File(rsct.toURI()));
         // print the turn number first
         wtf.println(turn);
         //then, for every single piece on the board, print it into the save file
@@ -489,7 +506,8 @@ public class Gamemode {
                 slots[r][c].setVerticalAlignment(JLabel.CENTER);
 
                 //adding picture to the slot
-                slots[r][c].setIcon(new ImageIcon("./src/Assets/board.png"));
+                BufferedImage img = ImageIO.read(ClassLoader.getSystemResource("board.png"));
+                slots[r][c].setIcon(new ImageIcon(img));
                 grid.add(slots[r][c]);
             }
         }

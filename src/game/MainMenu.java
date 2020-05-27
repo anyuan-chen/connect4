@@ -6,13 +6,18 @@
 package game;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class MainMenu extends javax.swing.JFrame {
 
@@ -48,7 +53,7 @@ public class MainMenu extends javax.swing.JFrame {
                 actionEvent -> {
                     try {
                         Statistics.saveStats();
-                    } catch (FileNotFoundException e) {
+                    } catch (FileNotFoundException | URISyntaxException e) {
                         e.printStackTrace();
                     }
                     System.exit(0);
@@ -59,8 +64,9 @@ public class MainMenu extends javax.swing.JFrame {
                 actionEvent -> {
                     //try-catch here used because we can't throw exceptions using a lambda function
                     try {
-                        Desktop.getDesktop().open(new File("./src/Assets/Instructions.txt"));
-                    } catch (IOException e) {
+                        URL rsc = ClassLoader.getSystemResource("Instructions.txt");
+                        Desktop.getDesktop().open(new File(rsc.toURI()));
+                    } catch (IOException | URISyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -76,7 +82,7 @@ public class MainMenu extends javax.swing.JFrame {
                 actionEvent -> {
                     try {
                         Statistics s = new Statistics();
-                    } catch (FileNotFoundException e) {
+                    } catch (FileNotFoundException | URISyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -137,25 +143,23 @@ public class MainMenu extends javax.swing.JFrame {
         frame.add(buttonPanel);
     }
 
-    public MainMenu(JFrame frame) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public MainMenu(JFrame frame) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         setUpMenu();
-        frame.setContentPane(new JLabel(new ImageIcon("./src/Assets/background.gif")));
-        frame.setLayout(new FlowLayout());
-        //title message
+        BufferedImage img = ImageIO.read(ClassLoader.getSystemResource("background.gif"));
+        frame.setContentPane(new JLabel(new ImageIcon(img)));
+        BufferedImage imgg = ImageIO.read(ClassLoader.getSystemResource("title.png"));
         JLabel titleLabel = new JLabel();
-        titleLabel.setIcon(new ImageIcon("./src/Assets/title.png"));
-
-        JLabel blank = new JLabel();
-        blank.setIcon(new ImageIcon("./src/Assets/blank.png"));
+        titleLabel.setIcon(new ImageIcon(imgg));
         frame.add(titleLabel);
+        frame.setLayout(new FlowLayout());
         setUpButtons();
         setUpVisuals();
 
         //sets size of the application
-        frame.setSize(589, 599);
         frame.setSize(590, 600);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
+        BufferedImage iconBuffer = ImageIO.read(ClassLoader.getSystemResource("connect4icon.png"));
+        ImageIcon icon = new ImageIcon(iconBuffer);
         frame.setIconImage(icon.getImage());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -170,9 +174,9 @@ public class MainMenu extends javax.swing.JFrame {
 //        UIManager.put("Button.font", "Arial");
     }
 
-    public static void main(String[] args) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         try {
-            UIManager.setLookAndFeel( new FlatDarculaLaf() );
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }        //creates instance of the application

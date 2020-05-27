@@ -5,12 +5,16 @@
  */
 package game;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class RandomAI extends Gamemode {
 
@@ -20,16 +24,17 @@ public class RandomAI extends Gamemode {
         super(frame);
     }
 
-    public RandomAI(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public RandomAI(JFrame frame, File save) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         super(frame, save);
     }
 
     @Override
-    public void setUpButtons() {
+    public void setUpButtons() throws IOException {
         //adds all of the buttons to the grid
         for (int i = 0; i < ROWSIZE; i++) {
             //numbers the buttons so it is more obvious where to press
-            buttons[i] = new JButton(new ImageIcon("./src/Assets/arrow.png"));
+            BufferedImage arrowBuffer = ImageIO.read(ClassLoader.getSystemResource("arrow.png"));
+            buttons[i] = new JButton(new ImageIcon(arrowBuffer));
             buttons[i].setBackground(col);
             buttons[i].setOpaque(true);
             buttons[i].setBorderPainted(false);
@@ -53,10 +58,25 @@ public class RandomAI extends Gamemode {
                                 occupied[finalI][c] = turn % 2;
                                 //if player is player 1
                                 if (turn % 2 == 1) {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player1CurrentColor));
+                                    BufferedImage imggg = null;
+                                    try {
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player2CurrentColor));
+                                        slots[finalI][c].setIcon(new ImageIcon(imggg));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    frame.setTitle("Player 2 Turn");
+
                                 } //if player is player 2
                                 else {
-                                    slots[finalI][c].setIcon(new ImageIcon("./src/Assets/" + Options.player2CurrentColor));
+                                    BufferedImage imggg = null;
+                                    try {
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
+                                        slots[finalI][c].setIcon(new ImageIcon(imggg));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    frame.setTitle("Player 1 Turn");
                                 }
                                 //centers the icon so that nothing bad can happen to it
                                 slots[finalI][c].setHorizontalAlignment(JLabel.CENTER);
@@ -74,6 +94,8 @@ public class RandomAI extends Gamemode {
                                 } catch (UnsupportedLookAndFeelException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (URISyntaxException e) {
                                     e.printStackTrace();
                                 }
                                 //increases the turn
@@ -150,7 +172,7 @@ public class RandomAI extends Gamemode {
             try {
                 //returns to main menu
                 MainMenu mm = new MainMenu(frame);
-            } catch (IOException | FontFormatException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+            } catch (IOException | FontFormatException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | URISyntaxException e) {
                 //since main menu has many many different exceptions that can occur, the try catch needs to exist
                 e.printStackTrace();
             }
@@ -180,7 +202,7 @@ public class RandomAI extends Gamemode {
             else if (optionChosen.equals("Yes")) {
                 try {
                     Statistics.saveStats();
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException | URISyntaxException e) {
                     e.printStackTrace();
                 }
                 System.exit(0);
@@ -206,7 +228,7 @@ public class RandomAI extends Gamemode {
             if (optionChosen.equals("Yes")) {
                 try {
                     saveGame();
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException | URISyntaxException e) {
                     e.printStackTrace();
                 }
             } //if no was selected, just close the pane
@@ -219,7 +241,8 @@ public class RandomAI extends Gamemode {
         //calls the constructor of the
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
-                RandomAI gm = new RandomAI(frame, new File("./src/Assets/SAVE.txt"));
+                URL rsct = ClassLoader.getSystemResource("SAVE.txt");
+                RandomAI gm = new RandomAI(frame, new File(rsct.toURI()));
             } catch (IOException | FontFormatException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -229,6 +252,8 @@ public class RandomAI extends Gamemode {
             } catch (UnsupportedLookAndFeelException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         });

@@ -143,7 +143,7 @@ public class Options {
         options.add(difficulty2);
         options.add(maxNumberMoves);
         options.add(saveAndExit);
-        options.setSize(350,550);
+        options.setSize(430,550);
         ImageIcon icon = new ImageIcon("./src/Assets/connect4icon.png");
         options.setIconImage(icon.getImage());
         options.setLocationRelativeTo(null);

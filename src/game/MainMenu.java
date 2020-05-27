@@ -145,8 +145,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     public MainMenu(JFrame frame) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         setUpMenu();
-        BufferedImage img = ImageIO.read(ClassLoader.getSystemResource("background.gif"));
-        frame.setContentPane(new JLabel(new ImageIcon(img)));
+        ImageIcon backgroundIcon = new ImageIcon(ClassLoader.getSystemResource("background.gif"));
+        JLabel backGroundLabel = new JLabel(backgroundIcon);
+        frame.setContentPane(backGroundLabel);
         BufferedImage imgg = ImageIO.read(ClassLoader.getSystemResource("title.png"));
         JLabel titleLabel = new JLabel();
         titleLabel.setIcon(new ImageIcon(imgg));

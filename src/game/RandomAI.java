@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class RandomAI extends Gamemode {
 
-    MinimaxAI ai = new MinimaxAI(Options.currentEasyDifficulty, 1, 0);
+    MinimaxAI ai = new MinimaxAI(Options.overallDifficulty, 1, 0);
 
     public RandomAI(JFrame frame) throws IOException {
         super(frame);
@@ -145,9 +145,10 @@ public class RandomAI extends Gamemode {
              * System.out.println("diff " + Options.currentDifficulty);
              *
              */
-            int high = MinimaxAI.move(Options.currentEasyDifficulty, true, newArray);
+            System.out.println(ai.initialDepth);
+            int high = ai.move(Options.overallDifficulty, true, newArray);
             //System.out.println(high);
-            int choose = MinimaxAI.makeMove(high, newArray);
+            int choose = ai.makeMove(high, newArray);
 
             frame.repaint();
             frame.revalidate();

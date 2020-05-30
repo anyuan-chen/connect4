@@ -1,10 +1,13 @@
 
 # Project Charter
 ## Introduction
-This project charter will focus on various aspects of the Connect 4 project. It will include a success criteria, budget, and list of deliverables among many other things.
+This project charter will focus on various aspects of the Connect 4 project. It will include a success criteria, budget, and list of deliverables among many other things. It will be developed by Victor Gao and Andrew Chen before the deadline of June 10th, 2020. 
 ## Project Description
-This project will consist of a program written in Java meant to emulate the
-"Connect 4" board game on a computer. It will involve a six row, seven column grid which players will take turns dropping pieces in. The objective for a player in this game is to have four of their colored pieces connected in a row before their opponent. This can be done vertically, horizontally, or diagonally. The player will have the option to participate in this game either against another player, or against the computer.
+This project will consist of a program written in Java meant to emulate the "Connect 4" board game on a computer. It will involve a six row, seven column grid which players will take turns dropping pieces in. The objective for a player in this game is to have four of their colored pieces connected in a row before their opponent. This can be done vertically, horizontally, or diagonally. The player will have the option to participate in this game either against another player, or against the computer.
+
+This project specifically will include a method to save Connect 4 games for later playing, a variety of different colored pieces to use, and a way to track wins and losses. 
+
+The financial cost for this project will only be the time needed to develop the project and the electricity usage bye the developers for this project. 
 
 ## Scope
 

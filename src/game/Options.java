@@ -53,7 +53,7 @@ public class Options {
         }
         //creation of new combobox for user
         JComboBox<Integer> aiDifficulty = new JComboBox<Integer>(difficulty);
-        //selects current value
+        //selects current value that the ai difficulty is at
         for (int i = 0; i < difficulty.length; i++) {
             if (difficulty[i] == currentEasyDifficulty) {
                 aiDifficulty.setSelectedIndex(i);

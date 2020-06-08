@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
  */
 package game;
 
@@ -119,8 +120,7 @@ public class Gamemode {
             JOptionPane.showMessageDialog(new JFrame(), "No save file exists, a new game will be created instead",
                     "Error", JOptionPane.INFORMATION_MESSAGE);
             MainMenu mm = new MainMenu(frame);
-        }
-        else {
+        } else {
             //for every single column represented in the save file
             for (int i = 0; i < COLSIZE; i++) {
                 //read and split values into a string array
@@ -142,9 +142,8 @@ public class Gamemode {
                         slots[j][i].setHorizontalAlignment(JLabel.CENTER);
                         slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
-                    }
-                    //add appropriate icon to create the illusion of a connect 4 board
-                    else{
+                    } //add appropriate icon to create the illusion of a connect 4 board
+                    else {
                         BufferedImage imgg = ImageIO.read(ClassLoader.getSystemResource("board.png"));
                         slots[j][i].setIcon(new ImageIcon(imgg));
                     }
@@ -189,7 +188,7 @@ public class Gamemode {
                                 if (turn % 2 == 1) {
                                     BufferedImage imggg = null;
                                     try {
-                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player2CurrentColor));
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
                                         slots[finalI][c].setIcon(new ImageIcon(imggg));
                                     } catch (IOException e) {
                                         e.printStackTrace();
@@ -200,7 +199,7 @@ public class Gamemode {
                                 else {
                                     BufferedImage imggg = null;
                                     try {
-                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
+                                        imggg = ImageIO.read(ClassLoader.getSystemResource(Options.player2CurrentColor));
                                         slots[finalI][c].setIcon(new ImageIcon(imggg));
                                     } catch (IOException e) {
                                         e.printStackTrace();
@@ -227,6 +226,7 @@ public class Gamemode {
                                 } catch (URISyntaxException e) {
                                     e.printStackTrace();
                                 }
+                                
                                 //increases the turn
                                 turn++;
                                 //repains and revalidates the frame
@@ -432,7 +432,9 @@ public class Gamemode {
 
     /**
      * loads the current game on the board into the save file
-     * @throws FileNotFoundException - in case the user deletes the file from the folder
+     *
+     * @throws FileNotFoundException - in case the user deletes the file from
+     * the folder
      */
     public void saveGame() throws FileNotFoundException, URISyntaxException {
         //opens a printwriter (write to file)

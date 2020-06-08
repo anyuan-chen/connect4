@@ -1,5 +1,9 @@
 /*
- * Point class that represents a point on the board
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
+ * Desc: this is the class that is used by the AI to represent a piece for the minimax algorithm
  */
 package game;
 

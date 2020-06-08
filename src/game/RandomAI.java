@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
+ * Description: this is the class that is invoked when a minimax AI is called
  */
 package game;
 
@@ -244,6 +246,7 @@ public class RandomAI extends Gamemode {
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
                 URL rsct = ClassLoader.getSystemResource("SAVE.txt");
+                JOptionPane.showMessageDialog(frame, "The save file is a 2 player game. You will be redirected to 2 player mode.");
                 TwoPlayer gm = new TwoPlayer(frame, new File(rsct.toURI()));
             } catch (IOException | FontFormatException e) {
                 e.printStackTrace();

@@ -3,6 +3,7 @@
  * Names: Andrew Chen, Victor Gao
  * Teacher: Mr. Anandarajan
  * Date: June 10th, 2020
+ * Desc: this is the main framework for the entire game; it provides the ability to place pieces, to display a board, and all the other major functions of connect 4
  */
 package game;
 

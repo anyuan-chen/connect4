@@ -1,3 +1,11 @@
+/*
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
+ * Desc: This is the class used to change the options available to the user
+ */
+
 package game;
 
 import javax.swing.*;

@@ -1,5 +1,11 @@
 package game;
-
+/*
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
+ * Description: Class which is invoked whenever a 2 player game needs to be made
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;

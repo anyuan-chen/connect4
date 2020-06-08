@@ -1,5 +1,10 @@
 package game;
-
+/*
+ * ICS4U Assignment
+ * Names: Andrew Chen, Victor Gao
+ * Teacher: Mr. Anandarajan
+ * Date: June 10th, 2020
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

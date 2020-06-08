@@ -3,6 +3,7 @@
  * Names: Andrew Chen, Victor Gao
  * Teacher: Mr. Anandarajan
  * Date: June 10th, 2020
+ * Desc: this is the main menu of the program, it serves as a portal to all other points in the program
  */
 package game;
 

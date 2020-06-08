@@ -84,7 +84,8 @@ public class RandomAI extends Gamemode {
                                 //checks if there is any player that has just won off of this tile placement
                                 //the checkwin will automatically terminate this object if there is a winner
                                 try {
-                                    checkWin(finalI, c, turn % 2);
+
+                                    checkWin(finalI, c, turn%2);
                                 } catch (IOException | FontFormatException e) {
                                     e.printStackTrace();
                                 } catch (IllegalAccessException e) {
@@ -243,7 +244,7 @@ public class RandomAI extends Gamemode {
         loadGame.addActionListener((ActionEvent actionEvent) -> {
             try {
                 URL rsct = ClassLoader.getSystemResource("SAVE.txt");
-                RandomAI gm = new RandomAI(frame, new File(rsct.toURI()));
+                TwoPlayer gm = new TwoPlayer(frame, new File(rsct.toURI()));
             } catch (IOException | FontFormatException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

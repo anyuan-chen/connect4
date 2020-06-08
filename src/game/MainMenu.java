@@ -154,7 +154,6 @@ public class MainMenu extends javax.swing.JFrame {
         frame.add(titleLabel);
         frame.setLayout(new FlowLayout());
         setUpButtons();
-        setUpVisuals();
 
         //sets size of the application
         frame.setSize(590, 600);
@@ -165,14 +164,6 @@ public class MainMenu extends javax.swing.JFrame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-    }
-
-    private void setUpVisuals() throws IOException, FontFormatException {
-//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        Font montserrat = Font.createFont(Font.TRUETYPE_FONT, new File("./src/Assets/Montserrat-BoldItalic.ttf")).deriveFont(40f);
-//        ge.registerFont(montserrat);
-//        UIManager.put("Label.font", montserrat);
-//        UIManager.put("Button.font", "Arial");
     }
 
     public static void main(String[] args) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {

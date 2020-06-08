@@ -134,8 +134,6 @@ public class Gamemode {
                     if (occupied[j][i] == 1) {
                         BufferedImage p1t = ImageIO.read(ClassLoader.getSystemResource(Options.player1CurrentColor));
                         slots[j][i].setIcon(new ImageIcon(p1t));
-                        //slots[j][i].setHorizontalAlignment(JLabel.CENTER);
-                        //slots[j][i].setVerticalAlignment(JLabel.CENTER);
                         turn++;
                     } //if it is player 2, fill with player 2 colors
                     else if (occupied[j][i] == 0) {

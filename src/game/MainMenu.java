@@ -101,6 +101,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void setUpButtons() throws IOException {
+        //creates new panel for the buttons
         GridLayout buttonPanelLayout = new GridLayout(3, 1);
         buttonPanelLayout.setVgap(40);
         JPanel buttonPanel = new JPanel();
@@ -118,16 +119,20 @@ public class MainMenu extends javax.swing.JFrame {
                     }
                 }
         );
+        //creates new easy ai game if the button is pressed
         JButton easyAI = new JButton("Singleplayer - Easy");
         easyAI.addActionListener(actionEvent -> {
             try {
+                //sets bot difficulty to the difficulty indicated by the user in the options setting
                 Options.overallDifficulty = Options.currentEasyDifficulty;
                 RandomAI rai = new RandomAI(frame);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+        //creates new hard ai game if the button is pressed
         JButton hardAI = new JButton("Singleplayer - Hard");
+        //sets bot difficulty to the difficulty indicated by user to the options setting
         hardAI.addActionListener(actionEvent -> {
             try {
                 Options.overallDifficulty = Options.currentModerateDifficulty;
@@ -147,6 +152,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     public MainMenu(JFrame frame) throws IOException, FontFormatException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, URISyntaxException {
         setUpMenu();
+        //loads in the background gif and title for the main menu
         ImageIcon backgroundIcon = new ImageIcon(ClassLoader.getSystemResource("background.gif"));
         JLabel backGroundLabel = new JLabel(backgroundIcon);
         frame.setContentPane(backGroundLabel);
@@ -159,6 +165,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         //sets size of the application
         frame.setSize(590, 600);
+        //sets the image icon as the connect 4 from assets
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         BufferedImage iconBuffer = ImageIO.read(ClassLoader.getSystemResource("connect4icon.png"));
         ImageIcon icon = new ImageIcon(iconBuffer);
